@@ -22,7 +22,8 @@ export async function getLenders() {
     const { data, error } = await supabase.from("lenders").select("*").order("id");
     if (!error && data?.length) return data;
     if (!error) {
-      await supabase.from("lenders").insert(defaultLenders);
+      const clean = defaultLenders.map(({ id, ...rest }) => rest);
+      await supabase.from("lenders").insert(clean);
       const { data: seeded } = await supabase.from("lenders").select("*").order("id");
       if (seeded?.length) return seeded;
     }
@@ -69,7 +70,8 @@ export async function getPipeline() {
     const { data, error } = await supabase.from("pipeline").select("*").order("id");
     if (!error && data?.length) return data;
     if (!error) {
-      await supabase.from("pipeline").insert(defaultPipeline);
+      const clean = defaultPipeline.map(({ id, ...rest }) => rest);
+      await supabase.from("pipeline").insert(clean);
       const { data: seeded } = await supabase.from("pipeline").select("*").order("id");
       if (seeded?.length) return seeded;
     }
@@ -280,9 +282,10 @@ export async function getUsers() {
     const { data, error } = await supabase.from("app_users").select("*").order("id");
     if (!error && data?.length) return data;
     if (!error) {
-      const seeded = defaultUsers.map((u, i) => ({
-        ...u,
-        id: u.id || i + 1,
+      const seeded = defaultUsers.map((u) => ({
+        email: u.email,
+        password: u.password,
+        name: u.name,
         role: u.role || (u.email === "admin@wbc.com" ? "admin" : "manager"),
         status: u.status || "active",
         created_at: new Date().toISOString(),
