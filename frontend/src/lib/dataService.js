@@ -115,6 +115,19 @@ export async function upsertPipeline(rows) {
   return true;
 }
 
+export async function createLender(data) {
+  if (hasSupabase) {
+    const { id, ...rest } = data;
+    const { data: row, error } = await supabase.from("lenders").insert(rest).select().single();
+    if (!error && row) return row;
+  }
+  const all = initLocal(LENDERS_KEY, defaultLenders);
+  data.id = all.length ? Math.max(...all.map((l) => l.id)) + 1 : 1;
+  all.push(data);
+  saveLocal(LENDERS_KEY, all);
+  return data;
+}
+
 export async function updateLender(id, updates) {
   if (hasSupabase) {
     const { error } = await supabase.from("lenders").update(updates).eq("id", id);
