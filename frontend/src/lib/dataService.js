@@ -337,6 +337,29 @@ export async function getUser(id) {
   return all.find((u) => u.id === Number(id)) || null;
 }
 
+export async function getUserByEmail(email) {
+  if (hasSupabase) {
+    const { data } = await supabase.from("app_users").select("*").eq("email", email).single();
+    if (data) return data;
+  }
+  const all = initUsers();
+  return all.find((u) => u.email === email) || null;
+}
+
+export async function updateUserProfile(email, updates) {
+  if (hasSupabase) {
+    const { error } = await supabase.from("app_users").update(updates).eq("email", email);
+    if (!error) return true;
+  }
+  const all = initUsers();
+  const idx = all.findIndex((u) => u.email === email);
+  if (idx !== -1) {
+    all[idx] = { ...all[idx], ...updates };
+    saveLocal(USERS_KEY, all);
+  }
+  return true;
+}
+
 export async function createUser({ email, password, name, role }) {
   const creator = localStorage.getItem("wbc_user") || "Unknown";
   const user = {

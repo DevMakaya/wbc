@@ -1,9 +1,11 @@
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { NavLink, Outlet, useNavigate, Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 import {
   LayoutDashboard, Building2, Upload,
   History, Shield, Briefcase, LogOut, Settings, BookOpen,
 } from "lucide-react";
 import { usePageTracker } from "../lib/tracker";
+import { getUserByEmail } from "../lib/dataService";
 import FeedbackPanel from "./FeedbackPanel";
 
 const ADMIN_NAV = [
@@ -38,6 +40,16 @@ export default function Layout() {
 
   const role = localStorage.getItem("wbc_user_role") || "manager";
   const userName = localStorage.getItem("wbc_user") || "User";
+  const [avatarUrl, setAvatarUrl] = useState(null);
+
+  useEffect(() => {
+    const email = localStorage.getItem("wbc_user_email");
+    if (email) {
+      getUserByEmail(email).then((u) => {
+        if (u?.avatar_url) setAvatarUrl(u.avatar_url);
+      });
+    }
+  }, []);
 
   const navItems = role === "admin" ? ADMIN_NAV
     : role === "prospect" ? PROSPECT_NAV
@@ -85,17 +97,21 @@ export default function Layout() {
           ))}
         </nav>
         <div className="p-3 border-t border-navy-800">
-          <div className="flex items-center gap-3 px-4 py-2 mb-1">
-            <div className="w-7 h-7 rounded-full bg-navy-800 flex items-center justify-center">
-              <span className="text-gold-400 text-xs font-bold">
-                {userName[0]?.toUpperCase()}
-              </span>
-            </div>
+          <Link to="/profile" className="flex items-center gap-3 px-4 py-2 mb-1 rounded-lg hover:bg-navy-800/50 transition-colors">
+            {avatarUrl ? (
+              <img src={avatarUrl} alt="" className="w-7 h-7 rounded-full object-cover" />
+            ) : (
+              <div className="w-7 h-7 rounded-full bg-navy-800 flex items-center justify-center">
+                <span className="text-gold-400 text-xs font-bold">
+                  {userName[0]?.toUpperCase()}
+                </span>
+              </div>
+            )}
             <div className="flex-1 min-w-0">
               <p className="text-navy-200 text-sm truncate">{userName}</p>
               <p className="text-navy-500 text-xs capitalize">{role}</p>
             </div>
-          </div>
+          </Link>
           <button
             onClick={logout}
             className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium text-navy-400 hover:text-red-400 hover:bg-navy-800/50 transition-colors w-full cursor-pointer"

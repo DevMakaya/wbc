@@ -113,6 +113,9 @@ CREATE TABLE IF NOT EXISTS app_users (
   name TEXT NOT NULL,
   role TEXT NOT NULL DEFAULT 'manager',
   status TEXT NOT NULL DEFAULT 'active',
+  phone TEXT,
+  bio TEXT,
+  avatar_url TEXT,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   created_by TEXT,
   last_login TIMESTAMPTZ

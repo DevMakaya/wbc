@@ -15,6 +15,7 @@ import ProspectDealView from "./pages/ProspectDealView";
 import VariablesPage from "./pages/VariablesPage";
 import CreateDealForm from "./components/CreateDealForm";
 import DocsPage from "./pages/DocsPage";
+import ProfilePage from "./pages/ProfilePage";
 
 function HomeRedirect() {
   const role = localStorage.getItem("wbc_user_role");
@@ -30,6 +31,7 @@ export default function App() {
         <Route element={<Layout />}>
           <Route index element={<HomeRedirect />} />
           <Route path="docs" element={<DocsPage />} />
+          <Route path="profile" element={<ProfilePage />} />
 
           <Route element={<ProtectedRoute allowedRoles={["admin", "manager"]} />}>
             <Route path="lenders" element={<LendersTable />} />
