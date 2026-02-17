@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import { MessageSquare, X, Send, Mic, MicOff, Clock } from "lucide-react";
 import { getUserFeedback, submitFeedback } from "../lib/dataService";
 
@@ -9,6 +10,7 @@ export default function FeedbackPanel() {
   const [sending, setSending] = useState(false);
   const [listening, setListening] = useState(false);
   const recognitionRef = useRef(null);
+  const location = useLocation();
   const email = localStorage.getItem("wbc_user_email") || "";
 
   const loadHistory = () => {
@@ -27,6 +29,7 @@ export default function FeedbackPanel() {
       user_name: localStorage.getItem("wbc_user") || "Unknown",
       user_role: localStorage.getItem("wbc_user_role") || "unknown",
       message: message.trim(),
+      page: location.pathname,
     });
     setMessage("");
     setSending(false);
@@ -85,6 +88,7 @@ export default function FeedbackPanel() {
           <div className="flex-1 overflow-y-auto p-5 space-y-5">
             <div>
               <p className="text-navy-400 text-xs mb-2">Your feedback helps us improve. Type or use the microphone.</p>
+              <p className="text-navy-500 text-xs mb-2">Page: <span className="text-navy-300">{location.pathname}</span></p>
               <div className="relative">
                 <textarea
                   value={message}
@@ -130,6 +134,7 @@ export default function FeedbackPanel() {
                     <div key={item.id} className="bg-navy-950 border border-navy-800 rounded-lg px-4 py-3">
                       <p className="text-navy-200 text-sm whitespace-pre-wrap">{item.message}</p>
                       <p className="text-navy-600 text-xs mt-1.5">
+                        {item.page && <span className="text-navy-500">{item.page} &middot; </span>}
                         {new Date(item.created_at).toLocaleString()}
                       </p>
                     </div>

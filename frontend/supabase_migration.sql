@@ -190,6 +190,7 @@ CREATE TABLE IF NOT EXISTS feedback (
   user_name TEXT NOT NULL,
   user_role TEXT,
   message TEXT NOT NULL,
+  page TEXT,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 

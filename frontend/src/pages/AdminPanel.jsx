@@ -548,6 +548,7 @@ function FeedbackTab() {
                 <th className="px-4 py-3 text-navy-400 text-xs font-medium uppercase">User</th>
                 <th className="px-4 py-3 text-navy-400 text-xs font-medium uppercase">Email</th>
                 <th className="px-4 py-3 text-navy-400 text-xs font-medium uppercase">Role</th>
+                <th className="px-4 py-3 text-navy-400 text-xs font-medium uppercase">Page</th>
                 <th className="px-4 py-3 text-navy-400 text-xs font-medium uppercase">Message</th>
                 <th className="px-4 py-3 text-navy-400 text-xs font-medium uppercase">Date</th>
               </tr>
@@ -565,12 +566,13 @@ function FeedbackTab() {
                     <td className="px-4 py-3">
                       <span className={`text-sm capitalize ${ROLE_COLORS[item.user_role] || "text-navy-300"}`}>{item.user_role}</span>
                     </td>
+                    <td className="px-4 py-3 text-navy-400 text-xs font-mono">{item.page || "—"}</td>
                     <td className="px-4 py-3 text-navy-200 text-sm max-w-xs truncate">{item.message}</td>
                     <td className="px-4 py-3 text-navy-400 text-xs whitespace-nowrap">{new Date(item.created_at).toLocaleString()}</td>
                   </tr>
                   {expanded === item.id && (
                     <tr key={`${item.id}-exp`}>
-                      <td colSpan={5} className="bg-navy-900/60 px-6 py-4">
+                      <td colSpan={6} className="bg-navy-900/60 px-6 py-4">
                         <p className="text-navy-200 text-sm whitespace-pre-wrap">{item.message}</p>
                       </td>
                     </tr>
