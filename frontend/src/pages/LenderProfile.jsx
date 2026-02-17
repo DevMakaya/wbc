@@ -121,7 +121,7 @@ export default function LenderProfile() {
       {tab === "matches" && (
         <div>
           {matches.length === 0 ? (
-            <p className="text-navy-500">No matching prospects in pipeline</p>
+            <p className="text-navy-500">No matching deals found</p>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {matches.map((m) => (

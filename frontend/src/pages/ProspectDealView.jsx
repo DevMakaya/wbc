@@ -48,7 +48,7 @@ export default function ProspectDealView({ previewMode }) {
 
   return (
     <div>
-      <Link to={previewMode ? `/pipeline/${id}` : "/my-deals"} className="inline-flex items-center gap-2 text-navy-400 hover:text-white mb-6 text-sm">
+      <Link to={previewMode ? `/deals/${id}` : "/my-deals"} className="inline-flex items-center gap-2 text-navy-400 hover:text-white mb-6 text-sm">
         <ArrowLeft size={16} /> {previewMode ? "Back to Deal" : "Back to My Deals"}
       </Link>
       {previewMode && (

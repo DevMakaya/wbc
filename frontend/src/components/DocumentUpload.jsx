@@ -1,10 +1,10 @@
-import { useState, useEffect, useRef } from "react";
-import { Upload, FolderOpen, Download, Trash2, File, Plus, X } from "lucide-react";
+import { useState, useEffect, useRef, useMemo } from "react";
+import { Upload, FolderOpen, Download, Trash2, File, Plus, X, Building2 } from "lucide-react";
 import { getDocuments, saveDocumentMeta, deleteDocumentMeta, getDealFolders, createDealFolder, deleteDealFolder } from "../lib/dataService";
 import { uploadFile, downloadFile, deleteFile } from "../lib/documentStorage";
 import { trackEvent } from "../lib/tracker";
 
-export default function DocumentUpload({ dealId }) {
+export default function DocumentUpload({ dealId, lenderFolders = [] }) {
   const [folders, setFolders] = useState([]);
   const [activeFolder, setActiveFolder] = useState("");
   const [documents, setDocuments] = useState([]);
@@ -27,6 +27,23 @@ export default function DocumentUpload({ dealId }) {
   };
 
   useEffect(load, [dealId]);
+
+  useEffect(() => {
+    if (!folders.length || !lenderFolders.length) return;
+    const existing = new Set(folders.map((f) => f.name));
+    const toCreate = lenderFolders
+      .map((name) => `Data Room - ${name}`)
+      .filter((name) => !existing.has(name));
+    if (toCreate.length) {
+      Promise.all(toCreate.map((name) => createDealFolder(dealId, name))).then(load);
+    }
+  }, [lenderFolders, folders.length]);
+
+  const { dealFolders, dataRoomFolders } = useMemo(() => {
+    const dr = folders.filter((f) => f.name.startsWith("Data Room - "));
+    const df = folders.filter((f) => !f.name.startsWith("Data Room - "));
+    return { dealFolders: df, dataRoomFolders: dr };
+  }, [folders]);
 
   const currentDocs = documents.filter((d) => d.folder === activeFolder);
   const user = localStorage.getItem("wbc_user") || "Unknown";
@@ -86,55 +103,69 @@ export default function DocumentUpload({ dealId }) {
     return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
   };
 
+  const renderFolderTabs = (folderList, icon) =>
+    folderList.map((folder) => {
+      const count = documents.filter((d) => d.folder === folder.name).length;
+      const Icon = icon || FolderOpen;
+      return (
+        <div key={folder.id} className="flex items-center group">
+          <button
+            onClick={() => setActiveFolder(folder.name)}
+            className={`px-3 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors cursor-pointer ${
+              activeFolder === folder.name ? "bg-navy-800 text-gold-400" : "text-navy-400 hover:text-white"
+            }`}
+          >
+            <Icon size={14} className="inline mr-1.5 -mt-0.5" />
+            {folder.name}
+            {count > 0 && <span className="ml-1.5 text-xs bg-navy-700 px-1.5 py-0.5 rounded-full">{count}</span>}
+          </button>
+          {canManage && count === 0 && (
+            <button onClick={() => handleDeleteFolder(folder)} className="opacity-0 group-hover:opacity-100 p-0.5 text-navy-600 hover:text-red-400 cursor-pointer transition-opacity" title="Delete folder">
+              <X size={12} />
+            </button>
+          )}
+        </div>
+      );
+    });
+
   return (
     <div>
-      <div className="flex gap-1 mb-4 bg-navy-900 border border-navy-800 rounded-xl p-1 overflow-x-auto items-center">
-        {folders.map((folder) => {
-          const count = documents.filter((d) => d.folder === folder.name).length;
-          return (
-            <div key={folder.id} className="flex items-center group">
-              <button
-                onClick={() => setActiveFolder(folder.name)}
-                className={`px-3 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors cursor-pointer ${
-                  activeFolder === folder.name
-                    ? "bg-navy-800 text-gold-400"
-                    : "text-navy-400 hover:text-white"
-                }`}
-              >
-                <FolderOpen size={14} className="inline mr-1.5 -mt-0.5" />
-                {folder.name}
-                {count > 0 && (
-                  <span className="ml-1.5 text-xs bg-navy-700 px-1.5 py-0.5 rounded-full">{count}</span>
-                )}
+      <div className="mb-4">
+        <div className="flex gap-1 bg-navy-900 border border-navy-800 rounded-xl p-1 overflow-x-auto items-center flex-wrap">
+          {dealFolders.length > 0 && (
+            <>
+              <span className="text-navy-600 text-[10px] uppercase tracking-wider px-2 py-1 font-semibold">Deal</span>
+              {renderFolderTabs(dealFolders, FolderOpen)}
+            </>
+          )}
+          {dataRoomFolders.length > 0 && (
+            <>
+              <div className="w-px h-6 bg-navy-700 mx-1" />
+              <span className="text-navy-600 text-[10px] uppercase tracking-wider px-2 py-1 font-semibold">Data Rooms</span>
+              {renderFolderTabs(dataRoomFolders, Building2)}
+            </>
+          )}
+          {canManage && (
+            addingFolder ? (
+              <div className="flex items-center gap-1 px-2">
+                <input
+                  value={newFolderName}
+                  onChange={(e) => setNewFolderName(e.target.value)}
+                  onKeyDown={(e) => { if (e.key === "Enter") handleAddFolder(); if (e.key === "Escape") setAddingFolder(false); }}
+                  placeholder="Folder name"
+                  className="px-2 py-1 rounded bg-navy-950 border border-navy-700 text-white text-xs w-32 focus:outline-none focus:ring-1 focus:ring-gold-500"
+                  autoFocus
+                />
+                <button onClick={handleAddFolder} className="text-emerald-400 hover:text-emerald-300 cursor-pointer"><Plus size={14} /></button>
+                <button onClick={() => setAddingFolder(false)} className="text-navy-400 hover:text-white cursor-pointer"><X size={14} /></button>
+              </div>
+            ) : (
+              <button onClick={() => setAddingFolder(true)} className="px-2 py-2 text-navy-500 hover:text-gold-400 cursor-pointer" title="Add folder">
+                <Plus size={16} />
               </button>
-              {canManage && count === 0 && (
-                <button onClick={() => handleDeleteFolder(folder)} className="opacity-0 group-hover:opacity-100 p-0.5 text-navy-600 hover:text-red-400 cursor-pointer transition-opacity" title="Delete folder">
-                  <X size={12} />
-                </button>
-              )}
-            </div>
-          );
-        })}
-        {canManage && (
-          addingFolder ? (
-            <div className="flex items-center gap-1 px-2">
-              <input
-                value={newFolderName}
-                onChange={(e) => setNewFolderName(e.target.value)}
-                onKeyDown={(e) => { if (e.key === "Enter") handleAddFolder(); if (e.key === "Escape") setAddingFolder(false); }}
-                placeholder="Folder name"
-                className="px-2 py-1 rounded bg-navy-950 border border-navy-700 text-white text-xs w-32 focus:outline-none focus:ring-1 focus:ring-gold-500"
-                autoFocus
-              />
-              <button onClick={handleAddFolder} className="text-emerald-400 hover:text-emerald-300 cursor-pointer"><Plus size={14} /></button>
-              <button onClick={() => setAddingFolder(false)} className="text-navy-400 hover:text-white cursor-pointer"><X size={14} /></button>
-            </div>
-          ) : (
-            <button onClick={() => setAddingFolder(true)} className="px-2 py-2 text-navy-500 hover:text-gold-400 cursor-pointer" title="Add folder">
-              <Plus size={16} />
-            </button>
-          )
-        )}
+            )
+          )}
+        </div>
       </div>
 
       <div

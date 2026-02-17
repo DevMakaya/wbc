@@ -36,6 +36,24 @@ const ALL_COLUMNS = [
     sortValue: (row) => Number(row.deal_size) || 0,
     render: (val) => (val ? `$${Number(val).toLocaleString()}` : "N/A"),
   },
+  {
+    key: "fee_percentage",
+    label: "Fee %",
+    editable: true,
+    filterType: "number",
+    sortValue: (row) => Number(row.fee_percentage) || 0,
+    render: (val) => (val ? `${Number(val)}%` : "N/A"),
+  },
+  {
+    key: "est_fee",
+    label: "Est. Fee",
+    sortValue: (row) => (Number(row.deal_size) || 0) * (Number(row.fee_percentage) || 0) / 100,
+    render: (_, row) => {
+      const size = Number(row.deal_size) || 0;
+      const pct = Number(row.fee_percentage) || 0;
+      return size && pct ? `$${Math.round(size * pct / 100).toLocaleString()}` : "N/A";
+    },
+  },
   { key: "lead_rm", label: "RM", editable: true, filterType: "select" },
   { key: "physical_location", label: "Location", editable: true, filterType: "select" },
   { key: "sector", label: "Sector", editable: true, filterType: "select", defaultHidden: true },
@@ -114,24 +132,24 @@ export default function PipelineTable() {
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <Users size={24} className="text-gold-400" />
-          <h1 className="text-2xl font-bold text-white">Pipeline</h1>
+          <h1 className="text-2xl font-bold text-white">Deals</h1>
           <span className="bg-navy-800 text-navy-300 px-2.5 py-0.5 rounded-full text-sm">
             {pipeline.length}
           </span>
         </div>
         <button
-          onClick={() => navigate("/prospects/new")}
+          onClick={() => navigate("/deals/new")}
           className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gold-500 text-navy-950 text-sm font-medium hover:bg-gold-400 transition-colors cursor-pointer"
         >
           <UserPlus size={16} />
-          New Prospect
+          New Deal
         </button>
       </div>
       <DataTable
         tableId="pipeline"
         columns={columns}
         data={pipeline}
-        onRowClick={(row) => navigate(`/pipeline/${row.id}`)}
+        onRowClick={(row) => navigate(`/deals/${row.id}`)}
         searchKeys={["client_name", "company_name", "wbc_sub_product", "pipeline_status", "sector"]}
         onCellEdit={handleCellEdit}
         editable

@@ -112,11 +112,11 @@ function UsersTab() {
         <span className="text-navy-300 text-sm">{users.length} users</span>
         <div className="flex gap-2">
           <button
-            onClick={() => nav("/prospects/new")}
+            onClick={() => nav("/deals/new")}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-gold-500/50 text-gold-400 text-sm font-medium hover:bg-gold-500/10 transition-colors cursor-pointer"
           >
             <UserPlus size={16} />
-            New Prospect + Deal
+            New Deal
           </button>
           <button
             onClick={() => { setShowForm(true); setEditingUser(null); setForm({ name: "", email: "", password: "", role: "manager" }); }}

@@ -47,7 +47,7 @@ export function ProspectMatchCard({ match }) {
   const { prospect, score, matchedProduct } = match;
   return (
     <Link
-      to={`/pipeline/${prospect.id}`}
+      to={`/deals/${prospect.id}`}
       className="block bg-navy-900 border border-navy-800 rounded-xl p-5 hover:border-gold-600/50 transition-colors"
     >
       <div className="flex items-start justify-between mb-3">

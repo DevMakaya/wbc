@@ -1,6 +1,6 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import {
-  LayoutDashboard, Building2, Users, Upload,
+  LayoutDashboard, Building2, Upload,
   History, Shield, Briefcase, LogOut, Settings,
 } from "lucide-react";
 import { usePageTracker } from "../lib/tracker";
@@ -8,7 +8,7 @@ import { usePageTracker } from "../lib/tracker";
 const ADMIN_NAV = [
   { to: "/", icon: LayoutDashboard, label: "Dashboard", end: true },
   { to: "/lenders", icon: Building2, label: "Lenders" },
-  { to: "/pipeline", icon: Users, label: "Pipeline" },
+  { to: "/deals", icon: Briefcase, label: "Deals" },
   { to: "/activity", icon: History, label: "Activity" },
   { to: "/upload", icon: Upload, label: "Upload" },
   { to: "/variables", icon: Settings, label: "Variables" },
@@ -18,7 +18,7 @@ const ADMIN_NAV = [
 const MANAGER_NAV = [
   { to: "/", icon: LayoutDashboard, label: "Dashboard", end: true },
   { to: "/lenders", icon: Building2, label: "Lenders" },
-  { to: "/pipeline", icon: Users, label: "Pipeline" },
+  { to: "/deals", icon: Briefcase, label: "Deals" },
   { to: "/activity", icon: History, label: "Activity" },
   { to: "/upload", icon: Upload, label: "Upload" },
   { to: "/variables", icon: Settings, label: "Variables" },

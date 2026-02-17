@@ -3,7 +3,7 @@ import { Settings, Plus, Trash2, GripVertical, Pencil, Check, X } from "lucide-r
 import { getAllVariables, saveVariable, updateVariable, deleteVariable } from "../lib/dataService";
 
 const CATEGORIES = [
-  { key: "pipeline_status", label: "Pipeline Status" },
+  { key: "pipeline_status", label: "Deal Status" },
   { key: "deal_stage", label: "Deal Stage" },
   { key: "wbc_product", label: "WBC Product" },
   { key: "wbc_sub_product", label: "Sub Product" },

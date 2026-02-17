@@ -53,7 +53,7 @@ export default function ActivityLog() {
         >
           <option value="all">All Types</option>
           <option value="lender">Lenders</option>
-          <option value="pipeline">Pipeline</option>
+          <option value="pipeline">Deals</option>
         </select>
         <select
           value={userFilter}
@@ -71,7 +71,7 @@ export default function ActivityLog() {
         <div className="text-navy-500 text-center py-12">
           <History size={48} className="mx-auto mb-4 opacity-30" />
           <p>No activity recorded yet</p>
-          <p className="text-sm mt-1">Changes to lenders and pipeline records will appear here</p>
+          <p className="text-sm mt-1">Changes to lenders and deal records will appear here</p>
         </div>
       ) : (
         <div className="space-y-2">

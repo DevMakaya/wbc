@@ -7,13 +7,13 @@ import { matchLendersForProspect } from "../lib/matchingEngine";
 const STAGE_COLORS = {
   "1. Lead / Intake": "bg-navy-600",
   "2. Discovery & NDA": "bg-blue-700",
-  "2. Internal Conviction & Approval": "bg-blue-600",
-  "3. Preliminary Analysis (Two Pager)": "bg-indigo-600",
-  "4. Market Sounding & Client Engagement": "bg-violet-600",
-  "5. Diligence & Financing Memo": "bg-purple-600",
-  "6. Term Sheets & Negotiation": "bg-gold-600",
-  "7. Term sheet Signed & Closing": "bg-amber-600",
-  "8. Closed": "bg-emerald-600",
+  "3. Internal Conviction & Approval": "bg-blue-600",
+  "4. Preliminary Analysis (Two Pager)": "bg-indigo-600",
+  "5. Market Sounding & Client Engagement": "bg-violet-600",
+  "6. Diligence & Financing Memo": "bg-purple-600",
+  "7. Term Sheets & Negotiation": "bg-gold-600",
+  "8. Term Sheet Signed & Closing": "bg-amber-600",
+  "9. Closed": "bg-emerald-600",
 };
 
 export default function Dashboard() {
@@ -38,9 +38,10 @@ export default function Dashboard() {
   }
 
   const active = pipeline.filter((p) => p.pipeline_status === "Active");
-  const totalRevenue = pipeline.reduce(
-    (sum, p) => sum + (Number(p.total_est_revenue) || 0), 0
-  );
+  const totalRevenue = pipeline.reduce((sum, p) => {
+    const fee = (Number(p.deal_size) || 0) * (Number(p.fee_percentage) || 0) / 100;
+    return sum + (fee || Number(p.total_est_revenue) || 0);
+  }, 0);
   const totalMatches = pipeline.reduce((sum, p) => {
     const matches = matchLendersForProspect(p, lenders);
     return sum + matches.length;
@@ -70,14 +71,14 @@ export default function Dashboard() {
       <h1 className="text-2xl font-bold text-white mb-6">Dashboard</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 mb-8">
         <StatCard icon={Building2} label="Total Lenders" value={lenders.length} sub="Financing sources" />
-        <StatCard icon={Users} label="Active Deals" value={active.length} sub={`${pipeline.length} total pipeline`} color="text-blue-400" />
-        <StatCard icon={Target} label="Total Matches" value={totalMatches.toLocaleString()} sub="Lender-prospect pairs" color="text-emerald-400" />
-        <StatCard icon={TrendingUp} label="Est. Revenue" value={`$${(totalRevenue / 1e6).toFixed(1)}M`} sub="Total pipeline" color="text-purple-400" />
+        <StatCard icon={Users} label="Active Deals" value={active.length} sub={`${pipeline.length} total deals`} color="text-blue-400" />
+        <StatCard icon={Target} label="Total Matches" value={totalMatches.toLocaleString()} sub="Lender-deal pairs" color="text-emerald-400" />
+        <StatCard icon={TrendingUp} label="Est. Revenue" value={`$${(totalRevenue / 1e6).toFixed(1)}M`} sub="Total deals" color="text-purple-400" />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-navy-900 border border-navy-800 rounded-xl p-6">
-          <h2 className="text-white font-semibold mb-4">Pipeline by Stage</h2>
+          <h2 className="text-white font-semibold mb-4">Deals by Stage</h2>
           <div className="space-y-3">
             {Object.entries(stageCounts)
               .sort(([a], [b]) => a.localeCompare(b))

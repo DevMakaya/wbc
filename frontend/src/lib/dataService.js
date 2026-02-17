@@ -79,7 +79,7 @@ export async function getPipeline() {
   return initLocal(PIPELINE_KEY, defaultPipeline);
 }
 
-export async function getProspect(id) {
+export async function getDeal(id) {
   if (hasSupabase) {
     const { data } = await supabase
       .from("pipeline")
@@ -91,6 +91,8 @@ export async function getProspect(id) {
   const all = initLocal(PIPELINE_KEY, defaultPipeline);
   return all.find((p) => p.id === Number(id)) || null;
 }
+
+export const getProspect = getDeal;
 
 export async function upsertPipeline(rows) {
   if (hasSupabase) {
@@ -437,11 +439,15 @@ const DEFAULT_VARIABLES = [
   { category: "pipeline_status", value: "Closed - Won" },
   { category: "pipeline_status", value: "Closed - Lost" },
   { category: "pipeline_status", value: "Closed - Mandate" },
-  { category: "deal_stage", value: "Proposal" },
-  { category: "deal_stage", value: "Due Diligence" },
-  { category: "deal_stage", value: "Negotiation" },
-  { category: "deal_stage", value: "Closing" },
-  { category: "deal_stage", value: "Closed" },
+  { category: "deal_stage", value: "1. Lead / Intake" },
+  { category: "deal_stage", value: "2. Discovery & NDA" },
+  { category: "deal_stage", value: "3. Internal Conviction & Approval" },
+  { category: "deal_stage", value: "4. Preliminary Analysis (Two Pager)" },
+  { category: "deal_stage", value: "5. Market Sounding & Client Engagement" },
+  { category: "deal_stage", value: "6. Diligence & Financing Memo" },
+  { category: "deal_stage", value: "7. Term Sheets & Negotiation" },
+  { category: "deal_stage", value: "8. Term Sheet Signed & Closing" },
+  { category: "deal_stage", value: "9. Closed" },
   { category: "wbc_product", value: "Lending" },
   { category: "wbc_product", value: "Advisory" },
   { category: "wbc_sub_product", value: "CRE" },
@@ -572,5 +578,99 @@ export async function deleteDealFolder(folderId) {
   let all = JSON.parse(localStorage.getItem(FOLDERS_KEY) || "[]");
   all = all.filter((f) => f.id !== Number(folderId));
   localStorage.setItem(FOLDERS_KEY, JSON.stringify(all));
+  return true;
+}
+
+const OUTREACH_KEY = "wbc_outreach";
+
+export async function getDealOutreach(dealId) {
+  if (hasSupabase) {
+    const { data, error } = await supabase.from("deal_lender_outreach").select("*").eq("deal_id", Number(dealId)).order("id");
+    if (!error && data) return data;
+  }
+  const all = JSON.parse(localStorage.getItem(OUTREACH_KEY) || "[]");
+  return all.filter((o) => o.deal_id === Number(dealId));
+}
+
+export async function addDealOutreach(data) {
+  const record = { ...data, created_at: new Date().toISOString() };
+  if (hasSupabase) {
+    const { id, ...rest } = record;
+    const { data: row, error } = await supabase.from("deal_lender_outreach").insert(rest).select().single();
+    if (!error && row) return row;
+  }
+  const all = JSON.parse(localStorage.getItem(OUTREACH_KEY) || "[]");
+  record.id = all.length ? Math.max(...all.map((o) => o.id)) + 1 : 1;
+  all.push(record);
+  localStorage.setItem(OUTREACH_KEY, JSON.stringify(all));
+  return record;
+}
+
+export async function updateDealOutreach(id, updates) {
+  if (hasSupabase) {
+    await supabase.from("deal_lender_outreach").update(updates).eq("id", id);
+    return true;
+  }
+  const all = JSON.parse(localStorage.getItem(OUTREACH_KEY) || "[]");
+  const idx = all.findIndex((o) => o.id === Number(id));
+  if (idx !== -1) { all[idx] = { ...all[idx], ...updates }; localStorage.setItem(OUTREACH_KEY, JSON.stringify(all)); }
+  return true;
+}
+
+export async function deleteDealOutreach(id) {
+  if (hasSupabase) {
+    await supabase.from("deal_lender_outreach").delete().eq("id", id);
+    return true;
+  }
+  let all = JSON.parse(localStorage.getItem(OUTREACH_KEY) || "[]");
+  all = all.filter((o) => o.id !== Number(id));
+  localStorage.setItem(OUTREACH_KEY, JSON.stringify(all));
+  return true;
+}
+
+const TERM_SHEETS_KEY = "wbc_term_sheets";
+
+export async function getDealTermSheets(dealId) {
+  if (hasSupabase) {
+    const { data, error } = await supabase.from("deal_term_sheets").select("*").eq("deal_id", Number(dealId)).order("id");
+    if (!error && data) return data;
+  }
+  const all = JSON.parse(localStorage.getItem(TERM_SHEETS_KEY) || "[]");
+  return all.filter((t) => t.deal_id === Number(dealId));
+}
+
+export async function addTermSheet(data) {
+  const record = { ...data, created_at: new Date().toISOString() };
+  if (hasSupabase) {
+    const { id, ...rest } = record;
+    const { data: row, error } = await supabase.from("deal_term_sheets").insert(rest).select().single();
+    if (!error && row) return row;
+  }
+  const all = JSON.parse(localStorage.getItem(TERM_SHEETS_KEY) || "[]");
+  record.id = all.length ? Math.max(...all.map((t) => t.id)) + 1 : 1;
+  all.push(record);
+  localStorage.setItem(TERM_SHEETS_KEY, JSON.stringify(all));
+  return record;
+}
+
+export async function updateTermSheet(id, updates) {
+  if (hasSupabase) {
+    await supabase.from("deal_term_sheets").update(updates).eq("id", id);
+    return true;
+  }
+  const all = JSON.parse(localStorage.getItem(TERM_SHEETS_KEY) || "[]");
+  const idx = all.findIndex((t) => t.id === Number(id));
+  if (idx !== -1) { all[idx] = { ...all[idx], ...updates }; localStorage.setItem(TERM_SHEETS_KEY, JSON.stringify(all)); }
+  return true;
+}
+
+export async function deleteTermSheet(id) {
+  if (hasSupabase) {
+    await supabase.from("deal_term_sheets").delete().eq("id", id);
+    return true;
+  }
+  let all = JSON.parse(localStorage.getItem(TERM_SHEETS_KEY) || "[]");
+  all = all.filter((t) => t.id !== Number(id));
+  localStorage.setItem(TERM_SHEETS_KEY, JSON.stringify(all));
   return true;
 }

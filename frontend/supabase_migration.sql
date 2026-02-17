@@ -55,7 +55,8 @@ CREATE TABLE pipeline (
   client_type TEXT,
   company_name TEXT,
   sector TEXT,
-  contact_name TEXT
+  contact_name TEXT,
+  fee_percentage REAL
 );
 
 ALTER TABLE lenders ENABLE ROW LEVEL SECURITY;
@@ -154,14 +155,47 @@ CREATE TABLE IF NOT EXISTS deal_folders (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+CREATE TABLE IF NOT EXISTS deal_lender_outreach (
+  id SERIAL PRIMARY KEY,
+  deal_id INTEGER NOT NULL REFERENCES pipeline(id),
+  lender_id INTEGER NOT NULL REFERENCES lenders(id),
+  status TEXT NOT NULL DEFAULT 'pending',
+  contacted_at TIMESTAMPTZ,
+  response_at TIMESTAMPTZ,
+  notes TEXT,
+  created_by TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS deal_term_sheets (
+  id SERIAL PRIMARY KEY,
+  deal_id INTEGER NOT NULL REFERENCES pipeline(id),
+  lender_id INTEGER NOT NULL REFERENCES lenders(id),
+  received_at TIMESTAMPTZ,
+  loan_amount REAL,
+  rate TEXT,
+  ltv TEXT,
+  term_years REAL,
+  loan_type TEXT,
+  recourse TEXT,
+  conditions TEXT,
+  notes TEXT,
+  status TEXT NOT NULL DEFAULT 'received',
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
 ALTER TABLE app_users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE deal_access ENABLE ROW LEVEL SECURITY;
 ALTER TABLE events ENABLE ROW LEVEL SECURITY;
 ALTER TABLE app_variables ENABLE ROW LEVEL SECURITY;
 ALTER TABLE deal_folders ENABLE ROW LEVEL SECURITY;
+ALTER TABLE deal_lender_outreach ENABLE ROW LEVEL SECURITY;
+ALTER TABLE deal_term_sheets ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "Allow all for authenticated" ON app_users FOR ALL USING (true) WITH CHECK (true);
 CREATE POLICY "Allow all for authenticated" ON deal_access FOR ALL USING (true) WITH CHECK (true);
 CREATE POLICY "Allow all for authenticated" ON events FOR ALL USING (true) WITH CHECK (true);
 CREATE POLICY "Allow all for authenticated" ON app_variables FOR ALL USING (true) WITH CHECK (true);
 CREATE POLICY "Allow all for authenticated" ON deal_folders FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Allow all for authenticated" ON deal_lender_outreach FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Allow all for authenticated" ON deal_term_sheets FOR ALL USING (true) WITH CHECK (true);
