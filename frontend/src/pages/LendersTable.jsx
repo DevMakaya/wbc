@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Building2 } from "lucide-react";
 import DataTable from "../components/DataTable";
-import { getLenders, updateLender, logChange } from "../lib/dataService";
+import { getLenders, updateLender, logChange, getAllVariables } from "../lib/dataService";
 import { getProductFlags } from "../lib/matchingEngine";
 
 const ALL_COLUMNS = [
@@ -39,18 +39,27 @@ const ALL_COLUMNS = [
 
 export default function LendersTable() {
   const [lenders, setLenders] = useState([]);
+  const [varMap, setVarMap] = useState({});
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   const load = () =>
-    getLenders().then((data) => {
+    Promise.all([getLenders(), getAllVariables()]).then(([data, vars]) => {
       setLenders(data);
+      const map = {};
+      vars.forEach((v) => { if (!map[v.category]) map[v.category] = []; map[v.category].push(v.value); });
+      setVarMap(map);
       setLoading(false);
     });
 
   useEffect(() => {
     load();
   }, []);
+
+  const columns = ALL_COLUMNS.map((col) => {
+    if (col.filterType === "select" && varMap[col.key]?.length) return { ...col, filterOptions: varMap[col.key] };
+    return col;
+  });
 
   const handleCellEdit = async (row, key, value) => {
     await logChange({
@@ -84,7 +93,7 @@ export default function LendersTable() {
       </div>
       <DataTable
         tableId="lenders"
-        columns={ALL_COLUMNS}
+        columns={columns}
         data={lenders}
         onRowClick={(row) => navigate(`/lenders/${row.id}`)}
         searchKeys={["lender_name", "lender_type", "contact_name", "based_in"]}

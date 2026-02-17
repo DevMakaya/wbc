@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import {
   ArrowLeft, User, Building2, MapPin, DollarSign,
-  Calendar, Briefcase, TrendingUp, Users,
+  Calendar, Briefcase, TrendingUp, Users, Eye,
+  CheckCircle, Download as DownloadIcon, Upload as UploadIcon,
 } from "lucide-react";
 import {
   getProspect, getLenders, getPipeline, getChangelog,
   getDealAccess, getUsers, grantDealAccess, revokeDealAccess,
 } from "../lib/dataService";
+import { getEvents } from "../lib/tracker";
 import { matchLendersForProspect } from "../lib/matchingEngine";
 import { LenderMatchCard } from "../components/MatchCard";
 import DocumentGenerator from "../components/DocumentGenerator";
@@ -24,6 +26,7 @@ export default function ProspectProfile() {
   const [accessList, setAccessList] = useState([]);
   const [prospectUsers, setProspectUsers] = useState([]);
   const [selectedUserId, setSelectedUserId] = useState("");
+  const [docEvents, setDocEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState("matches");
 
@@ -35,12 +38,14 @@ export default function ProspectProfile() {
       getChangelog("pipeline", id),
       getDealAccess(id),
       getUsers(),
-    ]).then(([p, lenders, allPipeline, changes, access, users]) => {
+      getEvents({ entity_id: Number(id) }),
+    ]).then(([p, lenders, allPipeline, changes, access, users, events]) => {
       setProspect(p);
       setPipeline(allPipeline);
       setActivity(changes);
       setAccessList(access);
       setProspectUsers(users.filter((u) => u.role === "prospect"));
+      setDocEvents(events.filter((e) => e.event_type === "document_view" || e.event_type === "document_upload"));
       if (p) setMatches(matchLendersForProspect(p, lenders));
       setLoading(false);
     });
@@ -75,6 +80,7 @@ export default function ProspectProfile() {
   const tabs = [
     { id: "matches", label: `Matches (${matches.length})` },
     { id: "documents", label: "Documents" },
+    { id: "doc-activity", label: `Doc Activity (${docEvents.length})` },
     { id: "notes", label: "Notes" },
     { id: "email", label: "Email Draft" },
     { id: "access", label: `Access (${accessList.length})` },
@@ -93,7 +99,12 @@ export default function ProspectProfile() {
             <h1 className="text-2xl font-bold text-white">{prospect.client_name}</h1>
             <p className="text-navy-400 mt-1">{prospect.company_name}</p>
           </div>
-          <StatusBadge status={prospect.pipeline_status} />
+          <div className="flex items-center gap-3">
+            <Link to={`/pipeline/${id}/preview`} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-navy-700 text-navy-300 text-sm hover:text-white hover:border-navy-600 transition-colors">
+              <Eye size={14} /> View as Client
+            </Link>
+            <StatusBadge status={prospect.pipeline_status} />
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -165,6 +176,8 @@ export default function ProspectProfile() {
           </div>
         </div>
       )}
+
+      {tab === "doc-activity" && <DocActivityPanel events={docEvents} users={prospectUsers} />}
 
       {tab === "notes" && <NotesPanel entityType="pipeline" entityId={id} />}
 
@@ -251,6 +264,39 @@ function StatusBadge({ status }) {
     <span className={`px-3 py-1 rounded-full text-sm font-medium border ${colors[status] || "bg-navy-800 text-navy-300 border-navy-700"}`}>
       {status || "Unknown"}
     </span>
+  );
+}
+
+function DocActivityPanel({ events, users }) {
+  const actionIcon = { document_view: DownloadIcon, document_upload: UploadIcon };
+  const actionColor = { document_view: "text-blue-400", document_upload: "text-emerald-400" };
+  const actionLabel = { document_view: "Downloaded / Viewed", document_upload: "Uploaded" };
+
+  if (!events.length) return <p className="text-navy-500 text-center py-8">No document activity recorded</p>;
+
+  return (
+    <div className="space-y-2">
+      {events.map((e, i) => {
+        const Icon = actionIcon[e.event_type] || CheckCircle;
+        const color = actionColor[e.event_type] || "text-navy-400";
+        const label = actionLabel[e.event_type] || e.event_type;
+        const meta = typeof e.metadata === "string" ? JSON.parse(e.metadata || "{}") : (e.metadata || {});
+        return (
+          <div key={e.id || i} className="flex items-center gap-4 bg-navy-900 border border-navy-800 rounded-xl px-4 py-3">
+            <Icon size={18} className={color + " shrink-0"} />
+            <div className="flex-1 min-w-0">
+              <p className="text-white text-sm">
+                {meta.doc_name || "Document"}{" "}
+                <span className="text-navy-400">&mdash; {label}</span>
+              </p>
+              <p className="text-navy-500 text-xs">
+                {e.user_name || "Unknown"} &middot; {new Date(e.created_at).toLocaleString()}
+              </p>
+            </div>
+          </div>
+        );
+      })}
+    </div>
   );
 }
 

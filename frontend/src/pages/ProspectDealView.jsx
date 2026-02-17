@@ -8,7 +8,7 @@ import { getProspect } from "../lib/dataService";
 import NotesPanel from "../components/NotesPanel";
 import DocumentUpload from "../components/DocumentUpload";
 
-export default function ProspectDealView() {
+export default function ProspectDealView({ previewMode }) {
   const { id } = useParams();
   const [prospect, setProspect] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -48,9 +48,14 @@ export default function ProspectDealView() {
 
   return (
     <div>
-      <Link to="/my-deals" className="inline-flex items-center gap-2 text-navy-400 hover:text-white mb-6 text-sm">
-        <ArrowLeft size={16} /> Back to My Deals
+      <Link to={previewMode ? `/pipeline/${id}` : "/my-deals"} className="inline-flex items-center gap-2 text-navy-400 hover:text-white mb-6 text-sm">
+        <ArrowLeft size={16} /> {previewMode ? "Back to Deal" : "Back to My Deals"}
       </Link>
+      {previewMode && (
+        <div className="bg-amber-900/30 border border-amber-700/50 text-amber-300 text-sm px-4 py-2 rounded-lg mb-4">
+          Preview Mode — This is what the prospect sees for this deal.
+        </div>
+      )}
 
       <div className="bg-navy-900 border border-navy-800 rounded-xl p-6 mb-6">
         <div className="flex items-start justify-between mb-4">

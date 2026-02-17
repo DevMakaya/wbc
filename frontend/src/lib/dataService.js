@@ -127,6 +127,19 @@ export async function updateLender(id, updates) {
   return true;
 }
 
+export async function createPipelineRecord(data) {
+  if (hasSupabase) {
+    const { id, ...rest } = data;
+    const { data: row, error } = await supabase.from("pipeline").insert(rest).select().single();
+    if (!error && row) return row;
+  }
+  const all = initLocal(PIPELINE_KEY, defaultPipeline);
+  const record = { ...data, id: all.length ? Math.max(...all.map((r) => r.id)) + 1 : 1 };
+  all.push(record);
+  saveLocal(PIPELINE_KEY, all);
+  return record;
+}
+
 export async function updatePipelineRecord(id, updates) {
   if (hasSupabase) {
     const { error } = await supabase.from("pipeline").update(updates).eq("id", id);
@@ -412,5 +425,152 @@ export async function revokeDealAccess(userId, dealId) {
   let all = JSON.parse(localStorage.getItem(DEAL_ACCESS_KEY) || "[]");
   all = all.filter((a) => !(a.user_id === Number(userId) && a.deal_id === Number(dealId)));
   localStorage.setItem(DEAL_ACCESS_KEY, JSON.stringify(all));
+  return true;
+}
+
+const VARIABLES_KEY = "wbc_variables";
+const FOLDERS_KEY = "wbc_folders";
+
+const DEFAULT_VARIABLES = [
+  { category: "pipeline_status", value: "Active" },
+  { category: "pipeline_status", value: "On Hold" },
+  { category: "pipeline_status", value: "Closed - Won" },
+  { category: "pipeline_status", value: "Closed - Lost" },
+  { category: "pipeline_status", value: "Closed - Mandate" },
+  { category: "deal_stage", value: "Proposal" },
+  { category: "deal_stage", value: "Due Diligence" },
+  { category: "deal_stage", value: "Negotiation" },
+  { category: "deal_stage", value: "Closing" },
+  { category: "deal_stage", value: "Closed" },
+  { category: "wbc_product", value: "Lending" },
+  { category: "wbc_product", value: "Advisory" },
+  { category: "wbc_sub_product", value: "CRE" },
+  { category: "wbc_sub_product", value: "Fund Finance" },
+  { category: "wbc_sub_product", value: "Asset-Based" },
+  { category: "wbc_sub_product", value: "Specialty" },
+  { category: "client_type", value: "Individual" },
+  { category: "client_type", value: "Company" },
+  { category: "client_type", value: "Fund" },
+  { category: "client_type", value: "Trust" },
+  { category: "lead_source", value: "Referral" },
+  { category: "lead_source", value: "Direct" },
+  { category: "lead_source", value: "Website" },
+  { category: "lead_source", value: "Conference" },
+  { category: "sector", value: "Real Estate" },
+  { category: "sector", value: "Finance" },
+  { category: "sector", value: "Technology" },
+  { category: "sector", value: "Healthcare" },
+  { category: "sector", value: "Energy" },
+  { category: "lender_type", value: "Bank" },
+  { category: "lender_type", value: "Non-Bank" },
+  { category: "lender_type", value: "Private Credit" },
+  { category: "lender_type", value: "Family Office" },
+];
+
+function initVariables() {
+  const stored = localStorage.getItem(VARIABLES_KEY);
+  if (stored) return JSON.parse(stored);
+  const seeded = DEFAULT_VARIABLES.map((v, i) => ({ ...v, id: i + 1, sort_order: i }));
+  localStorage.setItem(VARIABLES_KEY, JSON.stringify(seeded));
+  return seeded;
+}
+
+export async function getAllVariables() {
+  if (hasSupabase) {
+    const { data, error } = await supabase.from("app_variables").select("*").order("sort_order");
+    if (!error && data?.length) return data;
+    if (!error) {
+      const seeded = DEFAULT_VARIABLES.map((v, i) => ({ ...v, sort_order: i }));
+      await supabase.from("app_variables").insert(seeded);
+      const { data: fresh } = await supabase.from("app_variables").select("*").order("sort_order");
+      if (fresh?.length) return fresh;
+    }
+  }
+  return initVariables();
+}
+
+export async function getVariables(category) {
+  const all = await getAllVariables();
+  return all.filter((v) => v.category === category);
+}
+
+export async function saveVariable({ category, value, sort_order }) {
+  const record = { category, value, sort_order: sort_order ?? 0 };
+  if (hasSupabase) {
+    const { data, error } = await supabase.from("app_variables").insert(record).select().single();
+    if (!error && data) return data;
+  }
+  const all = initVariables();
+  record.id = all.length ? Math.max(...all.map((v) => v.id)) + 1 : 1;
+  all.push(record);
+  saveLocal(VARIABLES_KEY, all);
+  return record;
+}
+
+export async function updateVariable(id, updates) {
+  if (hasSupabase) {
+    await supabase.from("app_variables").update(updates).eq("id", id);
+    return true;
+  }
+  const all = initVariables();
+  const idx = all.findIndex((v) => v.id === Number(id));
+  if (idx !== -1) { all[idx] = { ...all[idx], ...updates }; saveLocal(VARIABLES_KEY, all); }
+  return true;
+}
+
+export async function deleteVariable(id) {
+  if (hasSupabase) {
+    await supabase.from("app_variables").delete().eq("id", id);
+    return true;
+  }
+  let all = initVariables();
+  all = all.filter((v) => v.id !== Number(id));
+  saveLocal(VARIABLES_KEY, all);
+  return true;
+}
+
+const DEFAULT_DEAL_FOLDERS = ["Closing Documents", "Monthly Reporting", "Due Diligence", "Correspondence", "Other"];
+
+export async function getDealFolders(dealId) {
+  if (hasSupabase) {
+    const { data, error } = await supabase.from("deal_folders").select("*").eq("deal_id", Number(dealId)).order("sort_order");
+    if (!error && data?.length) return data;
+    if (!error) {
+      const seeded = DEFAULT_DEAL_FOLDERS.map((name, i) => ({ deal_id: Number(dealId), name, sort_order: i, created_by: localStorage.getItem("wbc_user") || "system", created_at: new Date().toISOString() }));
+      await supabase.from("deal_folders").insert(seeded);
+      const { data: fresh } = await supabase.from("deal_folders").select("*").eq("deal_id", Number(dealId)).order("sort_order");
+      if (fresh?.length) return fresh;
+    }
+  }
+  const all = JSON.parse(localStorage.getItem(FOLDERS_KEY) || "[]");
+  const existing = all.filter((f) => f.deal_id === Number(dealId));
+  if (existing.length) return existing;
+  const seeded = DEFAULT_DEAL_FOLDERS.map((name, i) => ({ id: all.length + i + 1, deal_id: Number(dealId), name, sort_order: i, created_by: localStorage.getItem("wbc_user") || "system", created_at: new Date().toISOString() }));
+  all.push(...seeded);
+  localStorage.setItem(FOLDERS_KEY, JSON.stringify(all));
+  return seeded;
+}
+
+export async function createDealFolder(dealId, name) {
+  const record = { deal_id: Number(dealId), name, sort_order: 999, created_by: localStorage.getItem("wbc_user") || "Unknown", created_at: new Date().toISOString() };
+  if (hasSupabase) {
+    const { data, error } = await supabase.from("deal_folders").insert(record).select().single();
+    if (!error && data) return data;
+  }
+  const all = JSON.parse(localStorage.getItem(FOLDERS_KEY) || "[]");
+  record.id = all.length ? Math.max(...all.map((f) => f.id)) + 1 : 1;
+  all.push(record);
+  localStorage.setItem(FOLDERS_KEY, JSON.stringify(all));
+  return record;
+}
+
+export async function deleteDealFolder(folderId) {
+  if (hasSupabase) {
+    await supabase.from("deal_folders").delete().eq("id", folderId);
+    return true;
+  }
+  let all = JSON.parse(localStorage.getItem(FOLDERS_KEY) || "[]");
+  all = all.filter((f) => f.id !== Number(folderId));
+  localStorage.setItem(FOLDERS_KEY, JSON.stringify(all));
   return true;
 }

@@ -12,6 +12,8 @@ import ActivityLog from "./pages/ActivityLog";
 import AdminPanel from "./pages/AdminPanel";
 import MyDeals from "./pages/MyDeals";
 import ProspectDealView from "./pages/ProspectDealView";
+import VariablesPage from "./pages/VariablesPage";
+import CreateProspectForm from "./components/CreateProspectForm";
 
 function HomeRedirect() {
   const role = localStorage.getItem("wbc_user_role");
@@ -32,8 +34,11 @@ export default function App() {
             <Route path="lenders/:id" element={<LenderProfile />} />
             <Route path="pipeline" element={<PipelineTable />} />
             <Route path="pipeline/:id" element={<ProspectProfile />} />
+            <Route path="pipeline/:id/preview" element={<ProspectDealView previewMode />} />
             <Route path="activity" element={<ActivityLog />} />
             <Route path="upload" element={<Upload />} />
+            <Route path="variables" element={<VariablesPage />} />
+            <Route path="prospects/new" element={<CreateProspectForm />} />
           </Route>
 
           <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>

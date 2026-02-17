@@ -134,13 +134,34 @@ CREATE TABLE IF NOT EXISTS events (
   page TEXT,
   entity_type TEXT,
   entity_id INTEGER,
+  metadata JSONB,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS app_variables (
+  id SERIAL PRIMARY KEY,
+  category TEXT NOT NULL,
+  value TEXT NOT NULL,
+  sort_order INTEGER DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS deal_folders (
+  id SERIAL PRIMARY KEY,
+  deal_id INTEGER NOT NULL REFERENCES pipeline(id),
+  name TEXT NOT NULL,
+  sort_order INTEGER DEFAULT 0,
+  created_by TEXT,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 ALTER TABLE app_users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE deal_access ENABLE ROW LEVEL SECURITY;
 ALTER TABLE events ENABLE ROW LEVEL SECURITY;
+ALTER TABLE app_variables ENABLE ROW LEVEL SECURITY;
+ALTER TABLE deal_folders ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "Allow all for authenticated" ON app_users FOR ALL USING (true) WITH CHECK (true);
 CREATE POLICY "Allow all for authenticated" ON deal_access FOR ALL USING (true) WITH CHECK (true);
 CREATE POLICY "Allow all for authenticated" ON events FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Allow all for authenticated" ON app_variables FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Allow all for authenticated" ON deal_folders FOR ALL USING (true) WITH CHECK (true);

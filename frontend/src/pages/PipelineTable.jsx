@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Users } from "lucide-react";
+import { Users, UserPlus } from "lucide-react";
 import DataTable from "../components/DataTable";
-import { getPipeline, updatePipelineRecord, logChange } from "../lib/dataService";
+import { getPipeline, updatePipelineRecord, logChange, getAllVariables } from "../lib/dataService";
 
 const STATUS_COLORS = {
   Active: "text-emerald-400",
@@ -66,18 +66,27 @@ const ALL_COLUMNS = [
 
 export default function PipelineTable() {
   const [pipeline, setPipeline] = useState([]);
+  const [varMap, setVarMap] = useState({});
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   const load = () =>
-    getPipeline().then((data) => {
+    Promise.all([getPipeline(), getAllVariables()]).then(([data, vars]) => {
       setPipeline(data);
+      const map = {};
+      vars.forEach((v) => { if (!map[v.category]) map[v.category] = []; map[v.category].push(v.value); });
+      setVarMap(map);
       setLoading(false);
     });
 
   useEffect(() => {
     load();
   }, []);
+
+  const columns = ALL_COLUMNS.map((col) => {
+    if (col.filterType === "select" && varMap[col.key]?.length) return { ...col, filterOptions: varMap[col.key] };
+    return col;
+  });
 
   const handleCellEdit = async (row, key, value) => {
     await logChange({
@@ -102,16 +111,25 @@ export default function PipelineTable() {
 
   return (
     <div>
-      <div className="flex items-center gap-3 mb-6">
-        <Users size={24} className="text-gold-400" />
-        <h1 className="text-2xl font-bold text-white">Pipeline</h1>
-        <span className="bg-navy-800 text-navy-300 px-2.5 py-0.5 rounded-full text-sm">
-          {pipeline.length}
-        </span>
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-3">
+          <Users size={24} className="text-gold-400" />
+          <h1 className="text-2xl font-bold text-white">Pipeline</h1>
+          <span className="bg-navy-800 text-navy-300 px-2.5 py-0.5 rounded-full text-sm">
+            {pipeline.length}
+          </span>
+        </div>
+        <button
+          onClick={() => navigate("/prospects/new")}
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gold-500 text-navy-950 text-sm font-medium hover:bg-gold-400 transition-colors cursor-pointer"
+        >
+          <UserPlus size={16} />
+          New Prospect
+        </button>
       </div>
       <DataTable
         tableId="pipeline"
-        columns={ALL_COLUMNS}
+        columns={columns}
         data={pipeline}
         onRowClick={(row) => navigate(`/pipeline/${row.id}`)}
         searchKeys={["client_name", "company_name", "wbc_sub_product", "pipeline_status", "sector"]}

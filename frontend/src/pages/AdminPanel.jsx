@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Shield, Users, BarChart3, Eye, UserPlus, Pencil,
   Trash2, X, Check, Activity,
@@ -48,6 +49,7 @@ export default function AdminPanel() {
 }
 
 function UsersTab() {
+  const nav = useNavigate();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
@@ -108,13 +110,22 @@ function UsersTab() {
     <div>
       <div className="flex items-center justify-between mb-4">
         <span className="text-navy-300 text-sm">{users.length} users</span>
-        <button
-          onClick={() => { setShowForm(true); setEditingUser(null); setForm({ name: "", email: "", password: "", role: "manager" }); }}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gold-500 text-navy-950 text-sm font-medium hover:bg-gold-400 transition-colors cursor-pointer"
-        >
-          <UserPlus size={16} />
-          Create User
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={() => nav("/prospects/new")}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-gold-500/50 text-gold-400 text-sm font-medium hover:bg-gold-500/10 transition-colors cursor-pointer"
+          >
+            <UserPlus size={16} />
+            New Prospect + Deal
+          </button>
+          <button
+            onClick={() => { setShowForm(true); setEditingUser(null); setForm({ name: "", email: "", password: "", role: "manager" }); }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gold-500 text-navy-950 text-sm font-medium hover:bg-gold-400 transition-colors cursor-pointer"
+          >
+            <UserPlus size={16} />
+            Create User
+          </button>
+        </div>
       </div>
 
       {showForm && (

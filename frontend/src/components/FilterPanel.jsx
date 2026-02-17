@@ -8,12 +8,16 @@ export default function FilterPanel({ columns, data, filters, onFilterChange }) 
     const vals = {};
     for (const col of filterableCols) {
       if (col.filterType === "select") {
-        const set = new Set();
-        data.forEach((row) => {
-          const v = row[col.key];
-          if (v != null && v !== "") set.add(String(v));
-        });
-        vals[col.key] = [...set].sort();
+        if (col.filterOptions?.length) {
+          vals[col.key] = col.filterOptions;
+        } else {
+          const set = new Set();
+          data.forEach((row) => {
+            const v = row[col.key];
+            if (v != null && v !== "") set.add(String(v));
+          });
+          vals[col.key] = [...set].sort();
+        }
       }
     }
     return vals;
