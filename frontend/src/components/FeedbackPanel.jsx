@@ -1,14 +1,30 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useLocation } from "react-router-dom";
-import { MessageSquare, X, Send, Mic, MicOff, Clock } from "lucide-react";
+import { MessageSquare, X, Send, Mic, MicOff, Clock, GripHorizontal, EyeOff } from "lucide-react";
 import { getUserFeedback, submitFeedback } from "../lib/dataService";
+
+const STORAGE_POS_KEY = "wbc_feedback_pos";
+const STORAGE_HIDDEN_KEY = "wbc_feedback_hidden";
+
+function getSavedPos() {
+  try {
+    const saved = localStorage.getItem(STORAGE_POS_KEY);
+    if (saved) return JSON.parse(saved);
+  } catch {}
+  return { x: window.innerWidth - 160, y: 24 };
+}
 
 export default function FeedbackPanel() {
   const [open, setOpen] = useState(false);
+  const [hidden, setHidden] = useState(() => localStorage.getItem(STORAGE_HIDDEN_KEY) === "true");
   const [message, setMessage] = useState("");
   const [history, setHistory] = useState([]);
   const [sending, setSending] = useState(false);
   const [listening, setListening] = useState(false);
+  const [pos, setPos] = useState(getSavedPos);
+  const [dragging, setDragging] = useState(false);
+  const dragOffset = useRef({ x: 0, y: 0 });
+  const didDrag = useRef(false);
   const recognitionRef = useRef(null);
   const location = useLocation();
   const email = localStorage.getItem("wbc_user_email") || "";
@@ -20,6 +36,47 @@ export default function FeedbackPanel() {
   useEffect(() => {
     if (open) loadHistory();
   }, [open]);
+
+  const onMouseDown = useCallback((e) => {
+    if (e.target.closest("[data-no-drag]")) return;
+    e.preventDefault();
+    didDrag.current = false;
+    dragOffset.current = { x: e.clientX - pos.x, y: e.clientY - pos.y };
+    setDragging(true);
+  }, [pos]);
+
+  useEffect(() => {
+    if (!dragging) return;
+    const onMove = (e) => {
+      didDrag.current = true;
+      const newX = Math.max(0, Math.min(window.innerWidth - 140, e.clientX - dragOffset.current.x));
+      const newY = Math.max(0, Math.min(window.innerHeight - 44, e.clientY - dragOffset.current.y));
+      setPos({ x: newX, y: newY });
+    };
+    const onUp = () => {
+      setDragging(false);
+      setPos((p) => { localStorage.setItem(STORAGE_POS_KEY, JSON.stringify(p)); return p; });
+    };
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseup", onUp);
+    return () => { window.removeEventListener("mousemove", onMove); window.removeEventListener("mouseup", onUp); };
+  }, [dragging]);
+
+  const handleButtonClick = () => {
+    if (didDrag.current) return;
+    setOpen(!open);
+  };
+
+  const handleHide = (e) => {
+    e.stopPropagation();
+    setHidden(true);
+    localStorage.setItem(STORAGE_HIDDEN_KEY, "true");
+  };
+
+  const handleShow = () => {
+    setHidden(false);
+    localStorage.removeItem(STORAGE_HIDDEN_KEY);
+  };
 
   const handleSubmit = async () => {
     if (!message.trim()) return;
@@ -39,39 +96,60 @@ export default function FeedbackPanel() {
   const toggleSpeech = () => {
     const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SR) return alert("Speech recognition is not supported in this browser.");
-
     if (listening && recognitionRef.current) {
       recognitionRef.current.stop();
       setListening(false);
       return;
     }
-
     const recognition = new SR();
     recognition.lang = "en-US";
     recognition.interimResults = false;
     recognition.continuous = false;
     recognitionRef.current = recognition;
-
     recognition.onresult = (e) => {
       const transcript = e.results[0][0].transcript;
       setMessage((prev) => (prev ? prev + " " + transcript : transcript));
     };
     recognition.onend = () => setListening(false);
     recognition.onerror = () => setListening(false);
-
     recognition.start();
     setListening(true);
   };
 
+  if (hidden) {
+    return (
+      <button
+        onClick={handleShow}
+        className="fixed bottom-4 right-4 z-50 p-2 rounded-full bg-navy-800 border border-navy-700 text-navy-400 hover:text-gold-400 hover:border-gold-500/50 shadow-lg transition-all cursor-pointer"
+        title="Show feedback button"
+      >
+        <MessageSquare size={14} />
+      </button>
+    );
+  }
+
   return (
     <>
-      <button
-        onClick={() => setOpen(!open)}
-        className="fixed top-6 right-6 z-50 flex items-center gap-2 px-4 py-2.5 rounded-full bg-gold-500 text-navy-950 text-sm font-semibold shadow-lg hover:bg-gold-400 transition-all cursor-pointer"
+      <div
+        onMouseDown={onMouseDown}
+        onClick={handleButtonClick}
+        style={{ left: pos.x, top: pos.y, userSelect: "none" }}
+        className={`fixed z-50 flex items-center gap-1.5 rounded-full bg-gold-500 text-navy-950 shadow-lg transition-shadow ${dragging ? "shadow-2xl scale-105" : "hover:bg-gold-400"} cursor-grab active:cursor-grabbing`}
       >
-        <MessageSquare size={16} />
-        Feedback
-      </button>
+        <div className="flex items-center gap-2 pl-3 pr-1 py-2">
+          <GripHorizontal size={12} className="text-navy-950/40" />
+          <MessageSquare size={14} />
+          <span className="text-sm font-semibold">Feedback</span>
+        </div>
+        <button
+          data-no-drag
+          onClick={handleHide}
+          className="p-1.5 mr-1 rounded-full hover:bg-navy-950/20 transition-colors cursor-pointer"
+          title="Hide feedback button"
+        >
+          <EyeOff size={12} />
+        </button>
+      </div>
 
       {open && (
         <div className="fixed top-0 right-0 z-50 h-full w-full max-w-md bg-navy-900 border-l border-navy-800 shadow-2xl flex flex-col">
