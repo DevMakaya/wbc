@@ -70,7 +70,7 @@ export default function Layout() {
         <div className="p-5 border-b border-navy-800">
           {role === "prospect" ? (
             <div>
-              <p className="text-gold-400 font-semibold text-sm">Client Portal</p>
+              <p className="text-teal-400 font-semibold text-sm">Client Portal</p>
               <p className="text-navy-400 text-xs mt-0.5">{userName}</p>
             </div>
           ) : (
@@ -86,7 +86,7 @@ export default function Layout() {
               className={({ isActive }) =>
                 `flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                   isActive
-                    ? "bg-navy-800 text-gold-400"
+                    ? "bg-navy-800 text-teal-400"
                     : "text-navy-300 hover:text-white hover:bg-navy-800/50"
                 }`
               }
@@ -102,7 +102,7 @@ export default function Layout() {
               <img src={avatarUrl} alt="" className="w-7 h-7 rounded-full object-cover" />
             ) : (
               <div className="w-7 h-7 rounded-full bg-navy-800 flex items-center justify-center">
-                <span className="text-gold-400 text-xs font-bold">
+                <span className="text-teal-400 text-xs font-bold">
                   {userName[0]?.toUpperCase()}
                 </span>
               </div>

@@ -100,7 +100,7 @@ export default function ColumnManager({ allColumns, visibleKeys, colOrder, colLa
                         if (e.key === "Enter") saveRename(col.key);
                         if (e.key === "Escape") setEditingKey(null);
                       }}
-                      className="flex-1 px-2 py-0.5 rounded bg-navy-950 border border-navy-600 text-white text-sm focus:outline-none focus:ring-1 focus:ring-gold-500"
+                      className="flex-1 px-2 py-0.5 rounded bg-navy-950 border border-navy-600 text-white text-sm focus:outline-none focus:ring-1 focus:ring-teal-500"
                     />
                     <button onClick={() => saveRename(col.key)} className="cursor-pointer">
                       <Check size={14} className="text-emerald-400" />

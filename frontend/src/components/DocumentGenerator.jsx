@@ -344,7 +344,7 @@ export default function DocumentGenerator({ prospect, matches }) {
       {DOCS.map((d) => (
         <div key={d.id} className="bg-navy-900 border border-navy-800 rounded-xl p-5">
           <div className="flex items-start gap-3 mb-3">
-            <FileText size={20} className="text-gold-400 shrink-0 mt-0.5" />
+            <FileText size={20} className="text-teal-400 shrink-0 mt-0.5" />
             <div>
               <h3 className="text-white font-semibold">{d.title}</h3>
               <p className="text-navy-400 text-sm mt-1">{d.desc}</p>

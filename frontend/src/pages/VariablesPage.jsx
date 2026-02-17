@@ -62,7 +62,7 @@ export default function VariablesPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-32">
-        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gold-400" />
+        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-teal-400" />
       </div>
     );
   }
@@ -70,7 +70,7 @@ export default function VariablesPage() {
   return (
     <div>
       <div className="flex items-center gap-3 mb-6">
-        <Settings size={24} className="text-gold-400" />
+        <Settings size={24} className="text-teal-400" />
         <h1 className="text-2xl font-bold text-white">Variables</h1>
       </div>
 
@@ -84,7 +84,7 @@ export default function VariablesPage() {
                   key={cat.key}
                   onClick={() => setActive(cat.key)}
                   className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
-                    active === cat.key ? "bg-navy-800 text-gold-400" : "text-navy-300 hover:text-white hover:bg-navy-800/50"
+                    active === cat.key ? "bg-navy-800 text-teal-400" : "text-navy-300 hover:text-white hover:bg-navy-800/50"
                   }`}
                 >
                   {cat.label}
@@ -103,9 +103,9 @@ export default function VariablesPage() {
                 onChange={(e) => setNewValue(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleAdd()}
                 placeholder={`Add ${CATEGORIES.find((c) => c.key === active)?.label}...`}
-                className="flex-1 px-4 py-2.5 rounded-lg bg-navy-950 border border-navy-700 text-white text-sm placeholder-navy-500 focus:outline-none focus:ring-2 focus:ring-gold-500"
+                className="flex-1 px-4 py-2.5 rounded-lg bg-navy-950 border border-navy-700 text-white text-sm placeholder-navy-500 focus:outline-none focus:ring-2 focus:ring-teal-500"
               />
-              <button onClick={handleAdd} disabled={!newValue.trim()} className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-gold-500 text-navy-950 text-sm font-medium hover:bg-gold-400 disabled:opacity-40 transition-colors cursor-pointer">
+              <button onClick={handleAdd} disabled={!newValue.trim()} className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-teal-500 text-navy-950 text-sm font-medium hover:bg-teal-400 disabled:opacity-40 transition-colors cursor-pointer">
                 <Plus size={16} /> Add
               </button>
             </div>
@@ -131,7 +131,7 @@ export default function VariablesPage() {
                           value={editText}
                           onChange={(e) => setEditText(e.target.value)}
                           onKeyDown={(e) => e.key === "Enter" && handleRename(item.id)}
-                          className="flex-1 px-3 py-1 rounded bg-navy-900 border border-navy-700 text-white text-sm focus:outline-none focus:ring-2 focus:ring-gold-500"
+                          className="flex-1 px-3 py-1 rounded bg-navy-900 border border-navy-700 text-white text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
                           autoFocus
                         />
                         <button onClick={() => handleRename(item.id)} className="text-emerald-400 hover:text-emerald-300 cursor-pointer"><Check size={14} /></button>

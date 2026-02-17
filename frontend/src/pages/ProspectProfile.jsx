@@ -95,7 +95,7 @@ export default function ProspectProfile() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gold-400" />
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-400" />
       </div>
     );
   }
@@ -151,7 +151,7 @@ export default function ProspectProfile() {
           <span className="bg-navy-800 text-navy-300 px-3 py-1 rounded-full">Stage: {prospect.deal_stage || "N/A"}</span>
           <span className="bg-navy-800 text-navy-300 px-3 py-1 rounded-full">RM: {prospect.lead_rm || "N/A"}</span>
           <span className="bg-navy-800 text-navy-300 px-3 py-1 rounded-full">Source: {prospect.lead_source || "N/A"}</span>
-          <span className="bg-gold-900/30 text-gold-300 px-3 py-1 rounded-full">{outreachCounts.contacted} contacted</span>
+          <span className="bg-teal-900/30 text-teal-300 px-3 py-1 rounded-full">{outreachCounts.contacted} contacted</span>
           <span className="bg-emerald-900/30 text-emerald-300 px-3 py-1 rounded-full">{outreachCounts.interested} interested</span>
           <span className="bg-blue-900/30 text-blue-300 px-3 py-1 rounded-full">{outreachCounts.ts} term sheets</span>
         </div>
@@ -163,7 +163,7 @@ export default function ProspectProfile() {
             key={t.id}
             onClick={() => setTab(t.id)}
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer whitespace-nowrap ${
-              tab === t.id ? "bg-navy-800 text-gold-400" : "text-navy-400 hover:text-white"
+              tab === t.id ? "bg-navy-800 text-teal-400" : "text-navy-400 hover:text-white"
             }`}
           >
             {t.label}
@@ -224,13 +224,13 @@ export default function ProspectProfile() {
           <div className="bg-navy-900 border border-navy-800 rounded-xl p-5 mb-4">
             <h3 className="text-white font-semibold mb-3">Grant Prospect Access</h3>
             <div className="flex gap-3">
-              <select value={selectedUserId} onChange={(e) => setSelectedUserId(e.target.value)} className="flex-1 px-4 py-2.5 rounded-lg bg-navy-950 border border-navy-700 text-sm text-navy-200 focus:outline-none focus:ring-2 focus:ring-gold-500 cursor-pointer">
+              <select value={selectedUserId} onChange={(e) => setSelectedUserId(e.target.value)} className="flex-1 px-4 py-2.5 rounded-lg bg-navy-950 border border-navy-700 text-sm text-navy-200 focus:outline-none focus:ring-2 focus:ring-teal-500 cursor-pointer">
                 <option value="">Select a prospect user...</option>
                 {prospectUsers.filter((u) => !accessList.find((a) => a.user_id === u.id)).map((u) => (
                   <option key={u.id} value={u.id}>{u.name} ({u.email})</option>
                 ))}
               </select>
-              <button onClick={handleGrantAccess} disabled={!selectedUserId} className="px-4 py-2.5 rounded-lg bg-gold-500 text-navy-950 text-sm font-medium hover:bg-gold-400 disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer">
+              <button onClick={handleGrantAccess} disabled={!selectedUserId} className="px-4 py-2.5 rounded-lg bg-teal-500 text-navy-950 text-sm font-medium hover:bg-teal-400 disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer">
                 Grant Access
               </button>
             </div>
@@ -270,7 +270,7 @@ const STATUS_COLORS = {
   interested: "bg-emerald-900/50 text-emerald-300",
   not_interested: "bg-red-900/50 text-red-300",
   nda_signed: "bg-violet-900/50 text-violet-300",
-  term_sheet_received: "bg-gold-900/50 text-gold-300",
+  term_sheet_received: "bg-teal-900/50 text-teal-300",
   selected: "bg-green-900/50 text-green-300",
 };
 const STATUS_LABELS = {
@@ -331,7 +331,7 @@ function LenderOutreachPanel({ dealId, outreach, allLenders, onRefresh }) {
     <div>
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-white font-semibold">Lender Outreach</h3>
-        <button onClick={() => setShowAdd(!showAdd)} className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gold-500 text-navy-950 text-sm font-medium hover:bg-gold-400 transition-colors cursor-pointer">
+        <button onClick={() => setShowAdd(!showAdd)} className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-teal-500 text-navy-950 text-sm font-medium hover:bg-teal-400 transition-colors cursor-pointer">
           <Plus size={16} /> Add Lender
         </button>
       </div>
@@ -505,13 +505,13 @@ function TermSheetsPanel({ dealId, termSheets, outreach, allLenders, onRefresh }
     onRefresh();
   };
 
-  const inp = "px-3 py-2 rounded-lg bg-navy-950 border border-navy-700 text-white text-sm placeholder-navy-500 focus:outline-none focus:ring-2 focus:ring-gold-500";
+  const inp = "px-3 py-2 rounded-lg bg-navy-950 border border-navy-700 text-white text-sm placeholder-navy-500 focus:outline-none focus:ring-2 focus:ring-teal-500";
 
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-white font-semibold">Term Sheets</h3>
-        <button onClick={() => setShowForm(!showForm)} className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gold-500 text-navy-950 text-sm font-medium hover:bg-gold-400 transition-colors cursor-pointer">
+        <button onClick={() => setShowForm(!showForm)} className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-teal-500 text-navy-950 text-sm font-medium hover:bg-teal-400 transition-colors cursor-pointer">
           <FileText size={16} /> Add Term Sheet
         </button>
       </div>
@@ -541,7 +541,7 @@ function TermSheetsPanel({ dealId, termSheets, outreach, allLenders, onRefresh }
           </div>
           <div className="flex gap-2">
             <input value={form.notes} onChange={(e) => set("notes", e.target.value)} placeholder="Notes..." className={inp + " flex-1"} />
-            <button type="submit" className="px-4 py-2 rounded-lg bg-gold-500 text-navy-950 text-sm font-medium hover:bg-gold-400 cursor-pointer">Save</button>
+            <button type="submit" className="px-4 py-2 rounded-lg bg-teal-500 text-navy-950 text-sm font-medium hover:bg-teal-400 cursor-pointer">Save</button>
             <button type="button" onClick={() => setShowForm(false)} className="px-4 py-2 rounded-lg border border-navy-700 text-navy-300 text-sm hover:text-white cursor-pointer">Cancel</button>
           </div>
         </form>
@@ -663,7 +663,7 @@ function ActivityFeed({ entries }) {
           <p className="text-sm text-navy-200">
             <span className="text-white font-medium">{entry.user_name}</span>
             {" changed "}
-            <span className="text-gold-400">{entry.field}</span>
+            <span className="text-teal-400">{entry.field}</span>
           </p>
           <div className="flex items-center gap-2 mt-1 text-xs">
             <span className="text-red-400/70 line-through truncate max-w-[200px]">{entry.old_value || "(empty)"}</span>

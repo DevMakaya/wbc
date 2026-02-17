@@ -122,7 +122,7 @@ export default function PipelineTable() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gold-400" />
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-400" />
       </div>
     );
   }
@@ -131,7 +131,7 @@ export default function PipelineTable() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
-          <Users size={24} className="text-gold-400" />
+          <Users size={24} className="text-teal-400" />
           <h1 className="text-2xl font-bold text-white">Deals</h1>
           <span className="bg-navy-800 text-navy-300 px-2.5 py-0.5 rounded-full text-sm">
             {pipeline.length}
@@ -139,7 +139,7 @@ export default function PipelineTable() {
         </div>
         <button
           onClick={() => navigate("/deals/new")}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gold-500 text-navy-950 text-sm font-medium hover:bg-gold-400 transition-colors cursor-pointer"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-teal-500 text-navy-950 text-sm font-medium hover:bg-teal-400 transition-colors cursor-pointer"
         >
           <UserPlus size={16} />
           New Deal

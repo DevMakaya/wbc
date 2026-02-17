@@ -21,7 +21,7 @@ export default function AdminPanel() {
   return (
     <div>
       <div className="flex items-center gap-3 mb-6">
-        <Shield size={24} className="text-gold-400" />
+        <Shield size={24} className="text-teal-400" />
         <h1 className="text-2xl font-bold text-white">Admin Panel</h1>
       </div>
 
@@ -32,7 +32,7 @@ export default function AdminPanel() {
             onClick={() => setTab(t.id)}
             className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
               tab === t.id
-                ? "bg-navy-800 text-gold-400"
+                ? "bg-navy-800 text-teal-400"
                 : "text-navy-400 hover:text-white"
             }`}
           >
@@ -94,7 +94,7 @@ function UsersTab() {
   };
 
   const roleBadge = (role) => {
-    const c = role === "admin" ? "bg-gold-500/20 text-gold-400"
+    const c = role === "admin" ? "bg-teal-500/20 text-teal-400"
       : role === "prospect" ? "bg-purple-500/20 text-purple-400"
       : "bg-blue-500/20 text-blue-400";
     return <span className={`text-xs px-2 py-0.5 rounded-full ${c}`}>{role}</span>;
@@ -103,7 +103,7 @@ function UsersTab() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-32">
-        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gold-400" />
+        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-teal-400" />
       </div>
     );
   }
@@ -115,14 +115,14 @@ function UsersTab() {
         <div className="flex gap-2">
           <button
             onClick={() => nav("/deals/new")}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-gold-500/50 text-gold-400 text-sm font-medium hover:bg-gold-500/10 transition-colors cursor-pointer"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-teal-500/50 text-teal-400 text-sm font-medium hover:bg-teal-500/10 transition-colors cursor-pointer"
           >
             <UserPlus size={16} />
             New Deal
           </button>
           <button
             onClick={() => { setShowForm(true); setEditingUser(null); setForm({ name: "", email: "", password: "", role: "manager" }); }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gold-500 text-navy-950 text-sm font-medium hover:bg-gold-400 transition-colors cursor-pointer"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-teal-500 text-navy-950 text-sm font-medium hover:bg-teal-400 transition-colors cursor-pointer"
           >
             <UserPlus size={16} />
             Create User
@@ -144,7 +144,7 @@ function UsersTab() {
               onChange={(e) => setForm({ ...form, name: e.target.value })}
               placeholder="Name"
               required
-              className="px-4 py-2.5 rounded-lg bg-navy-950 border border-navy-700 text-white text-sm placeholder-navy-500 focus:outline-none focus:ring-2 focus:ring-gold-500"
+              className="px-4 py-2.5 rounded-lg bg-navy-950 border border-navy-700 text-white text-sm placeholder-navy-500 focus:outline-none focus:ring-2 focus:ring-teal-500"
             />
             <input
               type="email"
@@ -152,7 +152,7 @@ function UsersTab() {
               onChange={(e) => setForm({ ...form, email: e.target.value })}
               placeholder="Email"
               required
-              className="px-4 py-2.5 rounded-lg bg-navy-950 border border-navy-700 text-white text-sm placeholder-navy-500 focus:outline-none focus:ring-2 focus:ring-gold-500"
+              className="px-4 py-2.5 rounded-lg bg-navy-950 border border-navy-700 text-white text-sm placeholder-navy-500 focus:outline-none focus:ring-2 focus:ring-teal-500"
             />
             <input
               type="text"
@@ -160,12 +160,12 @@ function UsersTab() {
               onChange={(e) => setForm({ ...form, password: e.target.value })}
               placeholder={editingUser ? "New password (leave blank to keep)" : "Password"}
               required={!editingUser}
-              className="px-4 py-2.5 rounded-lg bg-navy-950 border border-navy-700 text-white text-sm placeholder-navy-500 focus:outline-none focus:ring-2 focus:ring-gold-500"
+              className="px-4 py-2.5 rounded-lg bg-navy-950 border border-navy-700 text-white text-sm placeholder-navy-500 focus:outline-none focus:ring-2 focus:ring-teal-500"
             />
             <select
               value={form.role}
               onChange={(e) => setForm({ ...form, role: e.target.value })}
-              className="px-4 py-2.5 rounded-lg bg-navy-950 border border-navy-700 text-white text-sm focus:outline-none focus:ring-2 focus:ring-gold-500 cursor-pointer"
+              className="px-4 py-2.5 rounded-lg bg-navy-950 border border-navy-700 text-white text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 cursor-pointer"
             >
               <option value="admin">Admin</option>
               <option value="manager">Manager</option>
@@ -173,7 +173,7 @@ function UsersTab() {
             </select>
           </div>
           <div className="flex justify-end mt-4">
-            <button type="submit" className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gold-500 text-navy-950 text-sm font-medium hover:bg-gold-400 transition-colors cursor-pointer">
+            <button type="submit" className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-teal-500 text-navy-950 text-sm font-medium hover:bg-teal-400 transition-colors cursor-pointer">
               <Check size={16} />
               {editingUser ? "Save Changes" : "Create"}
             </button>
@@ -305,7 +305,7 @@ function AnalyticsTab() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-32">
-        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gold-400" />
+        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-teal-400" />
       </div>
     );
   }
@@ -326,7 +326,7 @@ function AnalyticsTab() {
             {dailyActivity.map(([date, count]) => (
               <div key={date} className="flex-1 flex flex-col items-center" title={`${date}: ${count}`}>
                 <div
-                  className="w-full bg-gold-500/60 rounded-t"
+                  className="w-full bg-teal-500/60 rounded-t"
                   style={{ height: `${(count / maxDaily) * 100}%`, minHeight: count > 0 ? "4px" : "0" }}
                 />
               </div>
@@ -433,7 +433,7 @@ function MonitoringTab() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-32">
-        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gold-400" />
+        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-teal-400" />
       </div>
     );
   }
@@ -520,7 +520,7 @@ function FeedbackTab() {
   }, []);
 
   const ROLE_COLORS = {
-    admin: "text-gold-400",
+    admin: "text-teal-400",
     manager: "text-blue-400",
     prospect: "text-emerald-400",
   };
@@ -528,7 +528,7 @@ function FeedbackTab() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-32">
-        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gold-400" />
+        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-teal-400" />
       </div>
     );
   }

@@ -112,7 +112,7 @@ export default function DocumentUpload({ dealId, lenderFolders = [] }) {
           <button
             onClick={() => setActiveFolder(folder.name)}
             className={`px-3 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors cursor-pointer ${
-              activeFolder === folder.name ? "bg-navy-800 text-gold-400" : "text-navy-400 hover:text-white"
+              activeFolder === folder.name ? "bg-navy-800 text-teal-400" : "text-navy-400 hover:text-white"
             }`}
           >
             <Icon size={14} className="inline mr-1.5 -mt-0.5" />
@@ -153,14 +153,14 @@ export default function DocumentUpload({ dealId, lenderFolders = [] }) {
                   onChange={(e) => setNewFolderName(e.target.value)}
                   onKeyDown={(e) => { if (e.key === "Enter") handleAddFolder(); if (e.key === "Escape") setAddingFolder(false); }}
                   placeholder="Folder name"
-                  className="px-2 py-1 rounded bg-navy-950 border border-navy-700 text-white text-xs w-32 focus:outline-none focus:ring-1 focus:ring-gold-500"
+                  className="px-2 py-1 rounded bg-navy-950 border border-navy-700 text-white text-xs w-32 focus:outline-none focus:ring-1 focus:ring-teal-500"
                   autoFocus
                 />
                 <button onClick={handleAddFolder} className="text-emerald-400 hover:text-emerald-300 cursor-pointer"><Plus size={14} /></button>
                 <button onClick={() => setAddingFolder(false)} className="text-navy-400 hover:text-white cursor-pointer"><X size={14} /></button>
               </div>
             ) : (
-              <button onClick={() => setAddingFolder(true)} className="px-2 py-2 text-navy-500 hover:text-gold-400 cursor-pointer" title="Add folder">
+              <button onClick={() => setAddingFolder(true)} className="px-2 py-2 text-navy-500 hover:text-teal-400 cursor-pointer" title="Add folder">
                 <Plus size={16} />
               </button>
             )
@@ -174,7 +174,7 @@ export default function DocumentUpload({ dealId, lenderFolders = [] }) {
         onDrop={handleDrop}
         onClick={() => fileInputRef.current?.click()}
         className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-colors mb-4 ${
-          dragOver ? "border-gold-400 bg-gold-500/5" : "border-navy-700 hover:border-navy-600"
+          dragOver ? "border-teal-400 bg-teal-500/5" : "border-navy-700 hover:border-navy-600"
         }`}
       >
         <Upload size={32} className="mx-auto mb-3 text-navy-500" />
@@ -185,7 +185,7 @@ export default function DocumentUpload({ dealId, lenderFolders = [] }) {
 
       {loading ? (
         <div className="flex items-center justify-center h-20">
-          <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gold-400" />
+          <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-teal-400" />
         </div>
       ) : currentDocs.length === 0 ? (
         <div className="text-navy-500 text-sm text-center py-8">No documents in this folder</div>

@@ -7,7 +7,7 @@ export function LenderMatchCard({ match }) {
   return (
     <Link
       to={`/lenders/${lender.id}`}
-      className="block bg-navy-900 border border-navy-800 rounded-xl p-5 hover:border-gold-600/50 transition-colors"
+      className="block bg-navy-900 border border-navy-800 rounded-xl p-5 hover:border-teal-600/50 transition-colors"
     >
       <div className="flex items-start justify-between mb-3">
         <div>
@@ -48,7 +48,7 @@ export function ProspectMatchCard({ match }) {
   return (
     <Link
       to={`/deals/${prospect.id}`}
-      className="block bg-navy-900 border border-navy-800 rounded-xl p-5 hover:border-gold-600/50 transition-colors"
+      className="block bg-navy-900 border border-navy-800 rounded-xl p-5 hover:border-teal-600/50 transition-colors"
     >
       <div className="flex items-start justify-between mb-3">
         <div>

@@ -76,7 +76,7 @@ function TextFilter({ label, value, onChange }) {
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder="Filter..."
-        className="w-full px-3 py-1.5 rounded-lg bg-navy-950 border border-navy-700 text-white text-sm placeholder-navy-600 focus:outline-none focus:ring-1 focus:ring-gold-500"
+        className="w-full px-3 py-1.5 rounded-lg bg-navy-950 border border-navy-700 text-white text-sm placeholder-navy-600 focus:outline-none focus:ring-1 focus:ring-teal-500"
       />
     </div>
   );
@@ -92,14 +92,14 @@ function NumberFilter({ label, value, onChange }) {
           value={value.min}
           onChange={(e) => onChange({ ...value, min: e.target.value })}
           placeholder="Min"
-          className="w-full px-2 py-1.5 rounded-lg bg-navy-950 border border-navy-700 text-white text-sm placeholder-navy-600 focus:outline-none focus:ring-1 focus:ring-gold-500"
+          className="w-full px-2 py-1.5 rounded-lg bg-navy-950 border border-navy-700 text-white text-sm placeholder-navy-600 focus:outline-none focus:ring-1 focus:ring-teal-500"
         />
         <input
           type="number"
           value={value.max}
           onChange={(e) => onChange({ ...value, max: e.target.value })}
           placeholder="Max"
-          className="w-full px-2 py-1.5 rounded-lg bg-navy-950 border border-navy-700 text-white text-sm placeholder-navy-600 focus:outline-none focus:ring-1 focus:ring-gold-500"
+          className="w-full px-2 py-1.5 rounded-lg bg-navy-950 border border-navy-700 text-white text-sm placeholder-navy-600 focus:outline-none focus:ring-1 focus:ring-teal-500"
         />
       </div>
     </div>
@@ -145,7 +145,7 @@ function SelectFilter({ label, value, options, onChange }) {
                 type="checkbox"
                 checked={value.includes(opt)}
                 onChange={() => toggle(opt)}
-                className="accent-gold-400"
+                className="accent-teal-400"
               />
               <span className="text-navy-200 truncate">{opt}</span>
             </label>

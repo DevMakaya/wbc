@@ -57,7 +57,7 @@ Credit Advisory Team`;
     <div className="bg-navy-900 border border-navy-800 rounded-xl p-6">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <Mail size={20} className="text-gold-400" />
+          <Mail size={20} className="text-teal-400" />
           <h2 className="text-white font-semibold">Email Draft Preview</h2>
         </div>
         <button

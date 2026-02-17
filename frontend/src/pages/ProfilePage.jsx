@@ -57,7 +57,7 @@ export default function ProfilePage() {
   if (!user) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gold-400" />
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-400" />
       </div>
     );
   }
@@ -79,7 +79,7 @@ export default function ProfilePage() {
               />
             ) : (
               <div className="w-20 h-20 rounded-full bg-navy-800 border-2 border-navy-700 flex items-center justify-center">
-                <span className="text-gold-400 text-xl font-bold">{initials}</span>
+                <span className="text-teal-400 text-xl font-bold">{initials}</span>
               </div>
             )}
             <button
@@ -136,7 +136,7 @@ export default function ProfilePage() {
               onChange={(e) => setForm((f) => ({ ...f, bio: e.target.value }))}
               rows={3}
               placeholder="Tell us a bit about yourself..."
-              className="w-full bg-navy-800 border border-navy-700 rounded-lg px-3 py-2 text-white text-sm placeholder-navy-500 focus:outline-none focus:ring-1 focus:ring-gold-500/50 resize-none"
+              className="w-full bg-navy-800 border border-navy-700 rounded-lg px-3 py-2 text-white text-sm placeholder-navy-500 focus:outline-none focus:ring-1 focus:ring-teal-500/50 resize-none"
             />
           </div>
         </div>
@@ -154,7 +154,7 @@ export default function ProfilePage() {
           <button
             onClick={handleSave}
             disabled={saving || !form.name.trim()}
-            className="flex items-center gap-2 bg-gold-500 hover:bg-gold-600 disabled:opacity-50 text-navy-950 px-5 py-2.5 rounded-lg text-sm font-semibold transition-colors cursor-pointer"
+            className="flex items-center gap-2 bg-teal-500 hover:bg-teal-600 disabled:opacity-50 text-navy-950 px-5 py-2.5 rounded-lg text-sm font-semibold transition-colors cursor-pointer"
           >
             {saved ? <Check size={16} /> : <Save size={16} />}
             {saving ? "Saving..." : saved ? "Saved" : "Save Changes"}
@@ -178,7 +178,7 @@ function Field({ icon: Icon, label, value, onChange, disabled, hint, placeholder
         onChange={onChange ? (e) => onChange(e.target.value) : undefined}
         disabled={disabled}
         placeholder={placeholder}
-        className={`w-full bg-navy-800 border border-navy-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-gold-500/50 ${
+        className={`w-full bg-navy-800 border border-navy-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-teal-500/50 ${
           disabled ? "text-navy-500 cursor-not-allowed" : "text-white"
         }`}
       />

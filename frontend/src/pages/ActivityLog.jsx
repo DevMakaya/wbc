@@ -30,7 +30,7 @@ export default function ActivityLog() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gold-400" />
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-400" />
       </div>
     );
   }
@@ -38,7 +38,7 @@ export default function ActivityLog() {
   return (
     <div>
       <div className="flex items-center gap-3 mb-6">
-        <History size={24} className="text-gold-400" />
+        <History size={24} className="text-teal-400" />
         <h1 className="text-2xl font-bold text-white">Activity Log</h1>
         <span className="bg-navy-800 text-navy-300 px-2.5 py-0.5 rounded-full text-sm">
           {filtered.length}
@@ -49,7 +49,7 @@ export default function ActivityLog() {
         <select
           value={typeFilter}
           onChange={(e) => setTypeFilter(e.target.value)}
-          className="px-3 py-2 rounded-lg bg-navy-900 border border-navy-700 text-sm text-navy-200 focus:outline-none focus:ring-2 focus:ring-gold-500 cursor-pointer"
+          className="px-3 py-2 rounded-lg bg-navy-900 border border-navy-700 text-sm text-navy-200 focus:outline-none focus:ring-2 focus:ring-teal-500 cursor-pointer"
         >
           <option value="all">All Types</option>
           <option value="lender">Lenders</option>
@@ -58,7 +58,7 @@ export default function ActivityLog() {
         <select
           value={userFilter}
           onChange={(e) => setUserFilter(e.target.value)}
-          className="px-3 py-2 rounded-lg bg-navy-900 border border-navy-700 text-sm text-navy-200 focus:outline-none focus:ring-2 focus:ring-gold-500 cursor-pointer"
+          className="px-3 py-2 rounded-lg bg-navy-900 border border-navy-700 text-sm text-navy-200 focus:outline-none focus:ring-2 focus:ring-teal-500 cursor-pointer"
         >
           <option value="all">All Users</option>
           {users.map((u) => (
@@ -81,7 +81,7 @@ export default function ActivityLog() {
               className="bg-navy-900 border border-navy-800 rounded-xl px-4 py-3 flex items-start gap-3"
             >
               <div className="w-8 h-8 rounded-full bg-navy-800 flex items-center justify-center shrink-0 mt-0.5">
-                <span className="text-gold-400 text-sm font-bold">
+                <span className="text-teal-400 text-sm font-bold">
                   {(entry.user_name || "U")[0].toUpperCase()}
                 </span>
               </div>
@@ -89,7 +89,7 @@ export default function ActivityLog() {
                 <p className="text-sm text-navy-200">
                   <span className="text-white font-medium">{entry.user_name}</span>
                   {" changed "}
-                  <span className="text-gold-400">{entry.field}</span>
+                  <span className="text-teal-400">{entry.field}</span>
                   {" on "}
                   <span className="text-white">
                     {entry.entity_name || `${entry.entity_type} #${entry.entity_id}`}

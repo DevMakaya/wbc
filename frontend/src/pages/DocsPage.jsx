@@ -358,7 +358,7 @@ function Section({ section, isActive, onClick }) {
         onClick={onClick}
         className="w-full flex items-center justify-between text-left py-3 cursor-pointer group"
       >
-        <h3 className="text-white font-semibold text-sm group-hover:text-gold-400 transition-colors">{section.title}</h3>
+        <h3 className="text-white font-semibold text-sm group-hover:text-teal-400 transition-colors">{section.title}</h3>
         <ChevronRight size={16} className={`text-navy-500 transition-transform ${isActive ? "rotate-90" : ""}`} />
       </button>
       {isActive && (
@@ -398,7 +398,7 @@ export default function DocsPage() {
       <div className="w-56 shrink-0 hidden lg:block">
         <div className="sticky top-0">
           <div className="flex items-center gap-2 mb-4">
-            <BookOpen size={18} className="text-gold-400" />
+            <BookOpen size={18} className="text-teal-400" />
             <h2 className="text-white font-semibold text-sm">Contents</h2>
           </div>
           <nav className="space-y-0.5">
@@ -408,7 +408,7 @@ export default function DocsPage() {
                 onClick={() => toggle(s.id)}
                 className={`block w-full text-left px-3 py-1.5 rounded-lg text-xs transition-colors cursor-pointer ${
                   activeSection === s.id
-                    ? "bg-navy-800 text-gold-400"
+                    ? "bg-navy-800 text-teal-400"
                     : "text-navy-400 hover:text-white hover:bg-navy-800/50"
                 }`}
               >
@@ -421,11 +421,11 @@ export default function DocsPage() {
 
       <div className="flex-1 min-w-0" ref={contentRef}>
         <div className="flex items-center gap-3 mb-2">
-          <BookOpen size={24} className="text-gold-400" />
+          <BookOpen size={24} className="text-teal-400" />
           <h1 className="text-2xl font-bold text-white">Documentation</h1>
         </div>
         <p className="text-navy-400 text-sm mb-6">
-          Guide for <span className="text-gold-400 font-medium">{roleLabel}</span> role. Click any section to expand.
+          Guide for <span className="text-teal-400 font-medium">{roleLabel}</span> role. Click any section to expand.
         </p>
 
         <div className="bg-navy-900 border border-navy-800 rounded-xl divide-y divide-navy-800/50 px-5">

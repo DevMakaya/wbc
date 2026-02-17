@@ -191,9 +191,9 @@ export default function DataTable({
   const SortIcon = ({ col }) => {
     if (sortCol !== col) return <ChevronsUpDown size={14} className="text-navy-600" />;
     return sortDir === "asc" ? (
-      <ChevronUp size={14} className="text-gold-400" />
+      <ChevronUp size={14} className="text-teal-400" />
     ) : (
-      <ChevronDown size={14} className="text-gold-400" />
+      <ChevronDown size={14} className="text-teal-400" />
     );
   };
 
@@ -210,7 +210,7 @@ export default function DataTable({
               setPage(0);
             }}
             placeholder="Search..."
-            className="w-full pl-10 pr-4 py-2 rounded-lg bg-navy-900 border border-navy-700 text-white placeholder-navy-500 text-sm focus:outline-none focus:ring-2 focus:ring-gold-500"
+            className="w-full pl-10 pr-4 py-2 rounded-lg bg-navy-900 border border-navy-700 text-white placeholder-navy-500 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
           />
         </div>
         <span className="text-navy-500 text-sm">{sorted.length} results</span>
@@ -218,14 +218,14 @@ export default function DataTable({
           onClick={() => setShowFilters(!showFilters)}
           className={`inline-flex items-center gap-2 px-3 py-2 rounded-lg border text-sm transition-colors cursor-pointer ${
             showFilters || activeFilterCount
-              ? "bg-gold-500/10 border-gold-500/30 text-gold-400"
+              ? "bg-teal-500/10 border-teal-500/30 text-teal-400"
               : "bg-navy-900 border-navy-700 text-navy-300 hover:text-white"
           }`}
         >
           <Filter size={16} />
           Filters
           {activeFilterCount > 0 && (
-            <span className="bg-gold-500 text-navy-950 text-xs font-bold px-1.5 py-0.5 rounded-full">
+            <span className="bg-teal-500 text-navy-950 text-xs font-bold px-1.5 py-0.5 rounded-full">
               {activeFilterCount}
             </span>
           )}
@@ -297,7 +297,7 @@ export default function DataTable({
                         }}
                         onBlur={() => saveEdit(row, col)}
                         onClick={(e) => e.stopPropagation()}
-                        className="w-full px-2 py-1 rounded bg-navy-950 border border-gold-500 text-white text-sm focus:outline-none"
+                        className="w-full px-2 py-1 rounded bg-navy-950 border border-teal-500 text-white text-sm focus:outline-none"
                       />
                     ) : col.render ? (
                       col.render(row[col.key], row)

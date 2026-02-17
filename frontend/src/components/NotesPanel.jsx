@@ -30,7 +30,7 @@ export default function NotesPanel({ entityType, entityId }) {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-32">
-        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gold-400" />
+        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-teal-400" />
       </div>
     );
   }
@@ -46,7 +46,7 @@ export default function NotesPanel({ entityType, entityId }) {
           onKeyDown={(e) => {
             if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) handleAdd();
           }}
-          className="w-full px-4 py-3 rounded-lg bg-navy-950 border border-navy-700 text-white placeholder-navy-500 text-sm focus:outline-none focus:ring-2 focus:ring-gold-500 resize-none"
+          className="w-full px-4 py-3 rounded-lg bg-navy-950 border border-navy-700 text-white placeholder-navy-500 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 resize-none"
         />
         <div className="flex items-center justify-between mt-3">
           <span className="text-xs text-navy-500">
@@ -55,7 +55,7 @@ export default function NotesPanel({ entityType, entityId }) {
           <button
             onClick={handleAdd}
             disabled={!text.trim()}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gold-500 text-navy-950 text-sm font-medium hover:bg-gold-400 disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-teal-500 text-navy-950 text-sm font-medium hover:bg-teal-400 disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
           >
             <Send size={14} />
             Add Note
@@ -71,7 +71,7 @@ export default function NotesPanel({ entityType, entityId }) {
             <div key={note.id} className="bg-navy-900 border border-navy-800 rounded-xl p-4">
               <div className="flex items-center gap-3 mb-2">
                 <div className="w-8 h-8 rounded-full bg-navy-800 flex items-center justify-center">
-                  <span className="text-gold-400 text-sm font-bold">
+                  <span className="text-teal-400 text-sm font-bold">
                     {(note.user_name || "U")[0].toUpperCase()}
                   </span>
                 </div>

@@ -32,7 +32,7 @@ export default function MyDeals() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gold-400" />
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-400" />
       </div>
     );
   }
@@ -40,7 +40,7 @@ export default function MyDeals() {
   return (
     <div>
       <div className="flex items-center gap-3 mb-6">
-        <Briefcase size={24} className="text-gold-400" />
+        <Briefcase size={24} className="text-teal-400" />
         <h1 className="text-2xl font-bold text-white">My Deals</h1>
         <span className="bg-navy-800 text-navy-300 px-2.5 py-0.5 rounded-full text-sm">
           {deals.length}

@@ -11,7 +11,7 @@ const STAGE_COLORS = {
   "4. Preliminary Analysis (Two Pager)": "bg-indigo-600",
   "5. Market Sounding & Client Engagement": "bg-violet-600",
   "6. Diligence & Financing Memo": "bg-purple-600",
-  "7. Term Sheets & Negotiation": "bg-gold-600",
+  "7. Term Sheets & Negotiation": "bg-teal-600",
   "8. Term Sheet Signed & Closing": "bg-amber-600",
   "9. Closed": "bg-emerald-600",
 };
@@ -32,7 +32,7 @@ export default function Dashboard() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gold-400" />
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-400" />
       </div>
     );
   }

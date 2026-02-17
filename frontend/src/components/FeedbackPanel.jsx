@@ -11,7 +11,7 @@ function getSavedPos() {
     const saved = localStorage.getItem(STORAGE_POS_KEY);
     if (saved) return JSON.parse(saved);
   } catch {}
-  return { x: window.innerWidth - 160, y: 24 };
+  return { x: window.innerWidth - 160, y: window.innerHeight - 60 };
 }
 
 export default function FeedbackPanel() {
@@ -120,7 +120,7 @@ export default function FeedbackPanel() {
     return (
       <button
         onClick={handleShow}
-        className="fixed bottom-4 right-4 z-50 p-2 rounded-full bg-navy-800 border border-navy-700 text-navy-400 hover:text-gold-400 hover:border-gold-500/50 shadow-lg transition-all cursor-pointer"
+        className="fixed bottom-4 right-4 z-50 p-2 rounded-full bg-navy-800 border border-navy-700 text-navy-400 hover:text-teal-400 hover:border-teal-500/50 shadow-lg transition-all cursor-pointer"
         title="Show feedback button"
       >
         <MessageSquare size={14} />
@@ -134,7 +134,7 @@ export default function FeedbackPanel() {
         onMouseDown={onMouseDown}
         onClick={handleButtonClick}
         style={{ left: pos.x, top: pos.y, userSelect: "none" }}
-        className={`fixed z-50 flex items-center gap-1.5 rounded-full bg-gold-500 text-navy-950 shadow-lg transition-shadow ${dragging ? "shadow-2xl scale-105" : "hover:bg-gold-400"} cursor-grab active:cursor-grabbing`}
+        className={`fixed z-50 flex items-center gap-1.5 rounded-full bg-teal-500 text-navy-950 shadow-lg transition-shadow ${dragging ? "shadow-2xl scale-105" : "hover:bg-teal-400"} cursor-grab active:cursor-grabbing`}
       >
         <div className="flex items-center gap-2 pl-3 pr-1 py-2">
           <GripHorizontal size={12} className="text-navy-950/40" />
@@ -155,7 +155,7 @@ export default function FeedbackPanel() {
         <div className="fixed top-0 right-0 z-50 h-full w-full max-w-md bg-navy-900 border-l border-navy-800 shadow-2xl flex flex-col">
           <div className="flex items-center justify-between px-5 py-4 border-b border-navy-800">
             <div className="flex items-center gap-2">
-              <MessageSquare size={18} className="text-gold-400" />
+              <MessageSquare size={18} className="text-teal-400" />
               <h2 className="text-white font-semibold">Send Feedback</h2>
             </div>
             <button onClick={() => setOpen(false)} className="text-navy-400 hover:text-white cursor-pointer">
@@ -174,14 +174,14 @@ export default function FeedbackPanel() {
                   onKeyDown={(e) => { if (e.key === "Enter" && e.metaKey) handleSubmit(); }}
                   placeholder="What's on your mind?"
                   rows={4}
-                  className="w-full px-4 py-3 rounded-xl bg-navy-950 border border-navy-700 text-white text-sm placeholder-navy-500 focus:outline-none focus:ring-2 focus:ring-gold-500 resize-none pr-12"
+                  className="w-full px-4 py-3 rounded-xl bg-navy-950 border border-navy-700 text-white text-sm placeholder-navy-500 focus:outline-none focus:ring-2 focus:ring-teal-500 resize-none pr-12"
                 />
                 <button
                   onClick={toggleSpeech}
                   className={`absolute top-3 right-3 p-1.5 rounded-lg transition-colors cursor-pointer ${
                     listening
                       ? "bg-red-500/20 text-red-400 animate-pulse"
-                      : "text-navy-500 hover:text-gold-400 hover:bg-navy-800"
+                      : "text-navy-500 hover:text-teal-400 hover:bg-navy-800"
                   }`}
                   title={listening ? "Stop recording" : "Voice input"}
                 >
@@ -192,7 +192,7 @@ export default function FeedbackPanel() {
               <button
                 onClick={handleSubmit}
                 disabled={!message.trim() || sending}
-                className="mt-3 w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-gold-500 text-navy-950 text-sm font-semibold hover:bg-gold-400 disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                className="mt-3 w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-teal-500 text-navy-950 text-sm font-semibold hover:bg-teal-400 disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
               >
                 <Send size={14} />
                 {sending ? "Sending..." : "Submit Feedback"}

@@ -148,7 +148,7 @@ export default function Upload() {
   return (
     <div>
       <div className="flex items-center gap-3 mb-6">
-        <UploadIcon size={24} className="text-gold-400" />
+        <UploadIcon size={24} className="text-teal-400" />
         <h1 className="text-2xl font-bold text-white">Upload Data</h1>
       </div>
 
@@ -158,7 +158,7 @@ export default function Upload() {
             key={m}
             onClick={() => { setMode(m); setPreview(null); setStatus(null); }}
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors capitalize cursor-pointer ${
-              mode === m ? "bg-navy-800 text-gold-400" : "text-navy-400 hover:text-white"
+              mode === m ? "bg-navy-800 text-teal-400" : "text-navy-400 hover:text-white"
             }`}
           >
             {m}
@@ -196,7 +196,7 @@ export default function Upload() {
           onDragLeave={() => setDragOver(false)}
           onDrop={handleDrop}
           className={`bg-navy-900 border-2 border-dashed rounded-xl p-8 text-center transition-colors ${
-            dragOver ? "border-gold-500 bg-gold-500/5" : "border-navy-700"
+            dragOver ? "border-teal-500 bg-teal-500/5" : "border-navy-700"
           }`}
         >
           <FileUp size={40} className="mx-auto text-navy-500 mb-3" />
@@ -211,7 +211,7 @@ export default function Upload() {
           />
           <label
             htmlFor="file-upload"
-            className="inline-flex items-center gap-2 bg-gold-500 hover:bg-gold-600 text-navy-950 font-semibold px-4 py-2 rounded-lg text-sm transition-colors cursor-pointer"
+            className="inline-flex items-center gap-2 bg-teal-500 hover:bg-teal-600 text-navy-950 font-semibold px-4 py-2 rounded-lg text-sm transition-colors cursor-pointer"
           >
             <UploadIcon size={16} />
             Choose File
@@ -247,7 +247,7 @@ export default function Upload() {
               </button>
               <button
                 onClick={handleImport}
-                className="px-4 py-2 rounded-lg bg-gold-500 hover:bg-gold-600 text-navy-950 font-semibold text-sm cursor-pointer"
+                className="px-4 py-2 rounded-lg bg-teal-500 hover:bg-teal-600 text-navy-950 font-semibold text-sm cursor-pointer"
               >
                 Import {preview.length} Record{preview.length !== 1 ? "s" : ""}
               </button>

@@ -24,7 +24,7 @@ export default function ProspectDealView({ previewMode }) {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gold-400" />
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-400" />
       </div>
     );
   }
@@ -84,7 +84,7 @@ export default function ProspectDealView({ previewMode }) {
             onClick={() => setTab(t.id)}
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
               tab === t.id
-                ? "bg-navy-800 text-gold-400"
+                ? "bg-navy-800 text-teal-400"
                 : "text-navy-400 hover:text-white"
             }`}
           >

@@ -124,18 +124,18 @@ export default function LendersTable() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gold-400" />
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-400" />
       </div>
     );
   }
 
-  const inp = "px-4 py-2.5 rounded-lg bg-navy-950 border border-navy-700 text-white text-sm placeholder-navy-500 focus:outline-none focus:ring-2 focus:ring-gold-500";
+  const inp = "px-4 py-2.5 rounded-lg bg-navy-950 border border-navy-700 text-white text-sm placeholder-navy-500 focus:outline-none focus:ring-2 focus:ring-teal-500";
 
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
-          <Building2 size={24} className="text-gold-400" />
+          <Building2 size={24} className="text-teal-400" />
           <h1 className="text-2xl font-bold text-white">Lenders</h1>
           <span className="bg-navy-800 text-navy-300 px-2.5 py-0.5 rounded-full text-sm">
             {lenders.length}
@@ -143,7 +143,7 @@ export default function LendersTable() {
         </div>
         <button
           onClick={() => setShowForm(!showForm)}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gold-500 text-navy-950 text-sm font-medium hover:bg-gold-400 transition-colors cursor-pointer"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-teal-500 text-navy-950 text-sm font-medium hover:bg-teal-400 transition-colors cursor-pointer"
         >
           {showForm ? <X size={16} /> : <Plus size={16} />}
           {showForm ? "Cancel" : "New Lender"}
@@ -190,7 +190,7 @@ export default function LendersTable() {
                     type="checkbox"
                     checked={!!form[key]}
                     onChange={(e) => set(key, e.target.checked ? 1 : 0)}
-                    className="w-4 h-4 accent-gold-500 cursor-pointer"
+                    className="w-4 h-4 accent-teal-500 cursor-pointer"
                   />
                   {label}
                 </label>
@@ -207,7 +207,7 @@ export default function LendersTable() {
                     type="checkbox"
                     checked={!!products[key]}
                     onChange={(e) => setProducts((p) => ({ ...p, [key]: e.target.checked }))}
-                    className="w-3.5 h-3.5 accent-gold-500 cursor-pointer"
+                    className="w-3.5 h-3.5 accent-teal-500 cursor-pointer"
                   />
                   {label}
                 </label>
@@ -220,7 +220,7 @@ export default function LendersTable() {
           </div>
 
           <div className="flex justify-end">
-            <button type="submit" disabled={saving} className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg bg-gold-500 text-navy-950 font-semibold text-sm hover:bg-gold-400 transition-colors cursor-pointer disabled:opacity-60">
+            <button type="submit" disabled={saving} className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg bg-teal-500 text-navy-950 font-semibold text-sm hover:bg-teal-400 transition-colors cursor-pointer disabled:opacity-60">
               <Plus size={16} />
               {saving ? "Saving..." : "Add Lender"}
             </button>

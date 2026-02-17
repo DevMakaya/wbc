@@ -31,7 +31,7 @@ export default function LenderProfile() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gold-400" />
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-400" />
       </div>
     );
   }
@@ -61,8 +61,8 @@ export default function LenderProfile() {
             <p className="text-navy-400 mt-1">{lender.lender_type}</p>
           </div>
           <div className="flex items-center gap-2">
-            <Building2 size={20} className="text-gold-400" />
-            <span className="text-gold-400 font-semibold">ID #{lender.id}</span>
+            <Building2 size={20} className="text-teal-400" />
+            <span className="text-teal-400 font-semibold">ID #{lender.id}</span>
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -82,7 +82,7 @@ export default function LenderProfile() {
             onClick={() => setTab(t.id)}
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
               tab === t.id
-                ? "bg-navy-800 text-gold-400"
+                ? "bg-navy-800 text-teal-400"
                 : "text-navy-400 hover:text-white"
             }`}
           >
@@ -148,7 +148,7 @@ function InfoRow({ icon: Icon, label, value, href }) {
   );
   if (href) {
     return (
-      <a href={href} target="_blank" rel="noopener noreferrer" className="hover:text-gold-400 transition-colors">
+      <a href={href} target="_blank" rel="noopener noreferrer" className="hover:text-teal-400 transition-colors">
         {content}
       </a>
     );
@@ -167,7 +167,7 @@ function ActivityFeed({ entries }) {
           <p className="text-sm text-navy-200">
             <span className="text-white font-medium">{entry.user_name}</span>
             {" changed "}
-            <span className="text-gold-400">{entry.field}</span>
+            <span className="text-teal-400">{entry.field}</span>
           </p>
           <div className="flex items-center gap-2 mt-1 text-xs">
             <span className="text-red-400/70 line-through truncate max-w-[200px]">

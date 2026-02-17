@@ -1,4 +1,4 @@
-export default function StatCard({ icon: Icon, label, value, sub, color = "text-gold-400" }) {
+export default function StatCard({ icon: Icon, label, value, sub, color = "text-teal-400" }) {
   return (
     <div className="bg-navy-900 border border-navy-800 rounded-xl p-5">
       <div className="flex items-center gap-3 mb-3">

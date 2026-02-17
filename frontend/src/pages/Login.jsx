@@ -56,7 +56,7 @@ export default function Login() {
           className="bg-navy-900 rounded-xl p-8 border border-navy-800 shadow-2xl"
         >
           <div className="flex items-center gap-2 mb-6">
-            <Lock size={20} className="text-gold-400" />
+            <Lock size={20} className="text-teal-400" />
             <span className="text-navy-200 font-medium">Sign In</span>
           </div>
           {error && (
@@ -70,7 +70,7 @@ export default function Login() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 block w-full rounded-lg bg-navy-800 border border-navy-700 px-4 py-2.5 text-white placeholder-navy-500 focus:outline-none focus:ring-2 focus:ring-gold-500 focus:border-transparent"
+              className="mt-1 block w-full rounded-lg bg-navy-800 border border-navy-700 px-4 py-2.5 text-white placeholder-navy-500 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
               placeholder="admin@wbc.com"
             />
           </label>
@@ -80,14 +80,14 @@ export default function Login() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 block w-full rounded-lg bg-navy-800 border border-navy-700 px-4 py-2.5 text-white placeholder-navy-500 focus:outline-none focus:ring-2 focus:ring-gold-500 focus:border-transparent"
+              className="mt-1 block w-full rounded-lg bg-navy-800 border border-navy-700 px-4 py-2.5 text-white placeholder-navy-500 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
               placeholder="Enter password"
             />
           </label>
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-gold-500 hover:bg-gold-600 text-navy-950 font-semibold rounded-lg py-2.5 transition-colors cursor-pointer disabled:opacity-60"
+            className="w-full bg-teal-500 hover:bg-teal-600 text-navy-950 font-semibold rounded-lg py-2.5 transition-colors cursor-pointer disabled:opacity-60"
           >
             {loading ? "Signing in..." : "Sign In"}
           </button>

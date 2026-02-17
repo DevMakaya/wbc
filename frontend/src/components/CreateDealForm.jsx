@@ -66,7 +66,7 @@ export default function CreateDealForm() {
     navigate("/deals");
   };
 
-  const inp = "px-4 py-2.5 rounded-lg bg-navy-950 border border-navy-700 text-white text-sm placeholder-navy-500 focus:outline-none focus:ring-2 focus:ring-gold-500";
+  const inp = "px-4 py-2.5 rounded-lg bg-navy-950 border border-navy-700 text-white text-sm placeholder-navy-500 focus:outline-none focus:ring-2 focus:ring-teal-500";
   const sel = inp + " cursor-pointer";
 
   return (
@@ -75,13 +75,13 @@ export default function CreateDealForm() {
         <ArrowLeft size={16} /> Back
       </button>
       <div className="flex items-center gap-3 mb-6">
-        <Plus size={24} className="text-gold-400" />
+        <Plus size={24} className="text-teal-400" />
         <h1 className="text-2xl font-bold text-white">New Deal</h1>
       </div>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="bg-navy-900 border border-navy-800 rounded-xl p-6">
           <div className="flex items-center gap-2 mb-4">
-            <Briefcase size={18} className="text-gold-400" />
+            <Briefcase size={18} className="text-teal-400" />
             <h2 className="text-white font-semibold">Deal Information</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -112,9 +112,9 @@ export default function CreateDealForm() {
 
         <div className="bg-navy-900 border border-navy-800 rounded-xl p-6">
           <label className="flex items-center gap-3 cursor-pointer">
-            <input type="checkbox" checked={createPortalUser} onChange={(e) => setCreatePortalUser(e.target.checked)} className="w-4 h-4 accent-gold-500 cursor-pointer" />
+            <input type="checkbox" checked={createPortalUser} onChange={(e) => setCreatePortalUser(e.target.checked)} className="w-4 h-4 accent-teal-500 cursor-pointer" />
             <div className="flex items-center gap-2">
-              <User size={18} className="text-gold-400" />
+              <User size={18} className="text-teal-400" />
               <span className="text-white font-semibold text-sm">Create client portal access</span>
             </div>
           </label>
@@ -128,7 +128,7 @@ export default function CreateDealForm() {
         </div>
 
         <div className="flex justify-end">
-          <button type="submit" disabled={loading} className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-gold-500 text-navy-950 font-semibold hover:bg-gold-400 transition-colors cursor-pointer disabled:opacity-60">
+          <button type="submit" disabled={loading} className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-teal-500 text-navy-950 font-semibold hover:bg-teal-400 transition-colors cursor-pointer disabled:opacity-60">
             <Plus size={18} />
             {loading ? "Creating..." : "Create Deal"}
           </button>
