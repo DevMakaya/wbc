@@ -1,7 +1,7 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard, Building2, Upload,
-  History, Shield, Briefcase, LogOut, Settings,
+  History, Shield, Briefcase, LogOut, Settings, BookOpen,
 } from "lucide-react";
 import { usePageTracker } from "../lib/tracker";
 import FeedbackPanel from "./FeedbackPanel";
@@ -14,6 +14,7 @@ const ADMIN_NAV = [
   { to: "/upload", icon: Upload, label: "Upload" },
   { to: "/variables", icon: Settings, label: "Variables" },
   { to: "/admin", icon: Shield, label: "Admin" },
+  { to: "/docs", icon: BookOpen, label: "Docs" },
 ];
 
 const MANAGER_NAV = [
@@ -23,10 +24,12 @@ const MANAGER_NAV = [
   { to: "/activity", icon: History, label: "Activity" },
   { to: "/upload", icon: Upload, label: "Upload" },
   { to: "/variables", icon: Settings, label: "Variables" },
+  { to: "/docs", icon: BookOpen, label: "Docs" },
 ];
 
 const PROSPECT_NAV = [
   { to: "/my-deals", icon: Briefcase, label: "My Deals" },
+  { to: "/docs", icon: BookOpen, label: "Docs" },
 ];
 
 export default function Layout() {
