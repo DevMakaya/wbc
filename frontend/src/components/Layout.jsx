@@ -56,7 +56,7 @@ export default function Layout() {
               <p className="text-navy-400 text-xs mt-0.5">{userName}</p>
             </div>
           ) : (
-            <img src="/wbc-logo.svg" alt="WBC" className="h-10" />
+            <img src="https://whitebridge.capital/images/WBC-logo-white.svg" alt="WBC" className="h-10" />
           )}
         </div>
         <nav className="flex-1 p-3 space-y-1">
