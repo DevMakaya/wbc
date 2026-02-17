@@ -687,3 +687,37 @@ export async function deleteTermSheet(id) {
   localStorage.setItem(TERM_SHEETS_KEY, JSON.stringify(all));
   return true;
 }
+
+const FEEDBACK_KEY = "wbc_feedback";
+
+export async function getAllFeedback() {
+  if (hasSupabase) {
+    const { data, error } = await supabase.from("feedback").select("*").order("created_at", { ascending: false });
+    if (!error && data) return data;
+  }
+  return JSON.parse(localStorage.getItem(FEEDBACK_KEY) || "[]").sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+}
+
+export async function getUserFeedback(email) {
+  if (hasSupabase) {
+    const { data, error } = await supabase.from("feedback").select("*").eq("user_email", email).order("created_at", { ascending: false });
+    if (!error && data) return data;
+  }
+  return JSON.parse(localStorage.getItem(FEEDBACK_KEY) || "[]")
+    .filter((f) => f.user_email === email)
+    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+}
+
+export async function submitFeedback(data) {
+  const record = { ...data, created_at: new Date().toISOString() };
+  if (hasSupabase) {
+    const { id, ...rest } = record;
+    const { data: row, error } = await supabase.from("feedback").insert(rest).select().single();
+    if (!error && row) return row;
+  }
+  const all = JSON.parse(localStorage.getItem(FEEDBACK_KEY) || "[]");
+  record.id = all.length ? Math.max(...all.map((f) => f.id)) + 1 : 1;
+  all.push(record);
+  localStorage.setItem(FEEDBACK_KEY, JSON.stringify(all));
+  return record;
+}

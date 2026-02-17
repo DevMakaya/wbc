@@ -184,6 +184,15 @@ CREATE TABLE IF NOT EXISTS deal_term_sheets (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+CREATE TABLE IF NOT EXISTS feedback (
+  id SERIAL PRIMARY KEY,
+  user_email TEXT NOT NULL,
+  user_name TEXT NOT NULL,
+  user_role TEXT,
+  message TEXT NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
 ALTER TABLE app_users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE deal_access ENABLE ROW LEVEL SECURITY;
 ALTER TABLE events ENABLE ROW LEVEL SECURITY;
@@ -191,6 +200,7 @@ ALTER TABLE app_variables ENABLE ROW LEVEL SECURITY;
 ALTER TABLE deal_folders ENABLE ROW LEVEL SECURITY;
 ALTER TABLE deal_lender_outreach ENABLE ROW LEVEL SECURITY;
 ALTER TABLE deal_term_sheets ENABLE ROW LEVEL SECURITY;
+ALTER TABLE feedback ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "Allow all for authenticated" ON app_users FOR ALL USING (true) WITH CHECK (true);
 CREATE POLICY "Allow all for authenticated" ON deal_access FOR ALL USING (true) WITH CHECK (true);
@@ -199,3 +209,4 @@ CREATE POLICY "Allow all for authenticated" ON app_variables FOR ALL USING (true
 CREATE POLICY "Allow all for authenticated" ON deal_folders FOR ALL USING (true) WITH CHECK (true);
 CREATE POLICY "Allow all for authenticated" ON deal_lender_outreach FOR ALL USING (true) WITH CHECK (true);
 CREATE POLICY "Allow all for authenticated" ON deal_term_sheets FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Allow all for authenticated" ON feedback FOR ALL USING (true) WITH CHECK (true);

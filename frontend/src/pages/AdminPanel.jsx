@@ -2,9 +2,9 @@ import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Shield, Users, BarChart3, Eye, UserPlus, Pencil,
-  Trash2, X, Check, Activity,
+  Trash2, X, Check, Activity, MessageSquare,
 } from "lucide-react";
-import { getUsers, createUser, updateUser, deleteUser, getAllDealAccess } from "../lib/dataService";
+import { getUsers, createUser, updateUser, deleteUser, getAllDealAccess, getAllFeedback } from "../lib/dataService";
 import { getEvents } from "../lib/tracker";
 import StatCard from "../components/StatCard";
 
@@ -15,6 +15,7 @@ export default function AdminPanel() {
     { id: "users", label: "Users", icon: Users },
     { id: "analytics", label: "Analytics", icon: BarChart3 },
     { id: "monitoring", label: "Prospect Monitoring", icon: Eye },
+    { id: "feedback", label: "Feedback", icon: MessageSquare },
   ];
 
   return (
@@ -44,6 +45,7 @@ export default function AdminPanel() {
       {tab === "users" && <UsersTab />}
       {tab === "analytics" && <AnalyticsTab />}
       {tab === "monitoring" && <MonitoringTab />}
+      {tab === "feedback" && <FeedbackTab />}
     </div>
   );
 }
@@ -504,6 +506,81 @@ function MonitoringTab() {
           ))}
         </tbody>
       </table>
+    </div>
+  );
+}
+
+function FeedbackTab() {
+  const [feedback, setFeedback] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [expanded, setExpanded] = useState(null);
+
+  useEffect(() => {
+    getAllFeedback().then((data) => { setFeedback(data); setLoading(false); });
+  }, []);
+
+  const ROLE_COLORS = {
+    admin: "text-gold-400",
+    manager: "text-blue-400",
+    prospect: "text-emerald-400",
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-32">
+        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gold-400" />
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-4">
+        <span className="text-navy-300 text-sm">{feedback.length} feedback submissions</span>
+      </div>
+      {feedback.length === 0 ? (
+        <p className="text-navy-500 text-center py-12">No feedback received yet</p>
+      ) : (
+        <div className="bg-navy-900 border border-navy-800 rounded-xl overflow-hidden">
+          <table className="w-full">
+            <thead>
+              <tr className="border-b border-navy-800 text-left">
+                <th className="px-4 py-3 text-navy-400 text-xs font-medium uppercase">User</th>
+                <th className="px-4 py-3 text-navy-400 text-xs font-medium uppercase">Email</th>
+                <th className="px-4 py-3 text-navy-400 text-xs font-medium uppercase">Role</th>
+                <th className="px-4 py-3 text-navy-400 text-xs font-medium uppercase">Message</th>
+                <th className="px-4 py-3 text-navy-400 text-xs font-medium uppercase">Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {feedback.map((item) => (
+                <>
+                  <tr
+                    key={item.id}
+                    onClick={() => setExpanded(expanded === item.id ? null : item.id)}
+                    className="border-b border-navy-800/50 hover:bg-navy-800/30 transition-colors cursor-pointer"
+                  >
+                    <td className="px-4 py-3 text-white text-sm">{item.user_name}</td>
+                    <td className="px-4 py-3 text-navy-300 text-sm">{item.user_email}</td>
+                    <td className="px-4 py-3">
+                      <span className={`text-sm capitalize ${ROLE_COLORS[item.user_role] || "text-navy-300"}`}>{item.user_role}</span>
+                    </td>
+                    <td className="px-4 py-3 text-navy-200 text-sm max-w-xs truncate">{item.message}</td>
+                    <td className="px-4 py-3 text-navy-400 text-xs whitespace-nowrap">{new Date(item.created_at).toLocaleString()}</td>
+                  </tr>
+                  {expanded === item.id && (
+                    <tr key={`${item.id}-exp`}>
+                      <td colSpan={5} className="bg-navy-900/60 px-6 py-4">
+                        <p className="text-navy-200 text-sm whitespace-pre-wrap">{item.message}</p>
+                      </td>
+                    </tr>
+                  )}
+                </>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }

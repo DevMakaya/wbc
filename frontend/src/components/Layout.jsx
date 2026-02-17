@@ -4,6 +4,7 @@ import {
   History, Shield, Briefcase, LogOut, Settings,
 } from "lucide-react";
 import { usePageTracker } from "../lib/tracker";
+import FeedbackPanel from "./FeedbackPanel";
 
 const ADMIN_NAV = [
   { to: "/", icon: LayoutDashboard, label: "Dashboard", end: true },
@@ -106,6 +107,7 @@ export default function Layout() {
           <Outlet />
         </div>
       </main>
+      <FeedbackPanel />
     </div>
   );
 }
