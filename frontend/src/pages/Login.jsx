@@ -44,12 +44,13 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-navy-950 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-navy-950 px-4 relative">
+      <div className="fixed top-6 right-0 bg-teal-500 text-navy-950 text-xs font-bold tracking-widest uppercase px-4 py-1.5 rounded-l-full shadow-lg">
+        Beta
+      </div>
       <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <img src="https://whitebridge.capital/images/WBC-logo-white.svg" alt="WBC" className="h-12 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-white">Deal Matching System</h1>
-          <p className="text-navy-400 mt-1">Whitebridge Capital</p>
+        <div className="text-center mb-10">
+          <img src="https://whitebridge.capital/images/WBC-logo-white.svg" alt="Whitebridge Capital" className="h-16 mx-auto" />
         </div>
         <form
           onSubmit={handleSubmit}

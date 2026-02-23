@@ -1,0 +1,53 @@
+Subject: WBC Tool - Need Your Feedback Before We Move Forward
+
+
+Hi Team,
+
+I'm excited to share with you the first version of our internal tool that we've been building. Before we move forward with the next phase, I need your feedback on a couple of key areas.
+
+Here's the link: https://devmakaya.github.io/wbc/
+
+Your login credentials have been shared with you separately. If you haven't received them, let me know.
+
+
+IMPORTANT: The data in the tool is NOT real. It's all fake/test data we created for development purposes. Nothing in there represents actual lenders, deals, or contacts. So don't worry about what you see — focus on the structure and experience.
+
+
+WHAT I NEED FROM YOU:
+
+1. THE LENDER DATABASE (This is the priority)
+
+Go to the Lenders page and spend some time exploring it. Click around, click into individual lenders, look at the information we're capturing for each one.
+
+What I want to know:
+- Is there any information we should be capturing for each lender that's currently missing?
+- Is the way we're displaying lender information clear and easy to understand?
+- When you click on a lender profile, does the layout make sense?
+- Think about what we'll be storing there — NDAs, engagement letters, correspondence, etc. Does the document/folder structure work for that?
+
+This is critical because this tool is going to become our golden source for lender information. Once I have your feedback, I'm going to update our actual lender database with the right fields and structure. So if anything is missing or doesn't make sense, now is the time to flag it.
+
+
+2. OVERALL FEEL AND USABILITY
+
+As you navigate the tool, pay attention to:
+- Is it intuitive? Can you figure out where things are without being told?
+- Is it user-friendly? Does the layout and design make sense?
+- Is it easy to navigate between pages and sections?
+
+Note: The other pages (pipeline, deals, etc.) are not fully set up with real workflows yet, so don't focus too much on those. The lender database is where I want your attention right now.
+
+
+HOW TO GIVE FEEDBACK:
+
+However works best for you:
+- There's a Feedback button on every page (bottom-right corner of the screen). You can drag it around if it's in the way. Click it, type your thoughts, and submit. You can even use the microphone button to speak your feedback. It all gets collected and I can see which page you were on when you submitted it.
+- Send me an email or message with your thoughts.
+- Record a quick video or voice note if that's easier.
+
+However you want to articulate your thoughts — all feedback will be combined and used to make updates before the next version.
+
+Take your time with it over the next few days and let me know if you have any questions or trouble logging in.
+
+Thanks,
+Leo
