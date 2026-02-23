@@ -17,7 +17,7 @@ export default function Login() {
     setError("");
 
     const users = await getUsers();
-    const match = users.find((u) => u.email === email && u.password === password);
+    const match = users.find((u) => u.email.toLowerCase() === email.toLowerCase() && u.password === password);
 
     if (!match) {
       setError("Invalid credentials");
