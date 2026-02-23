@@ -3,5 +3,7 @@
   { "id": 2, "email": "laura@wbc.com", "password": "Laura@wbc.com", "name": "Laura", "role": "manager", "status": "active" },
   { "id": 3, "email": "tommy@wbc.com", "password": "Tommy@wbc.com", "name": "Tommy", "role": "manager", "status": "active" },
   { "id": 4, "email": "regina@wbc.com", "password": "Regina@wbc.com", "name": "Regina", "role": "manager", "status": "active" },
-  { "id": 5, "email": "leo@wbc.com", "password": "Leo@wbc.com", "name": "Leo", "role": "manager", "status": "active" }
+  { "id": 5, "email": "leo@wbc.com", "password": "Leo@wbc.com", "name": "Leo", "role": "manager", "status": "active" },
+  { "id": 6, "email": "kathia@wbc.com", "password": "Kathia@wbc.com", "name": "Kathia", "role": "manager", "status": "active" },
+  { "id": 7, "email": "andrea@wbc.com", "password": "Andrea@wbc.com", "name": "Andrea", "role": "manager", "status": "active" }
 ]
